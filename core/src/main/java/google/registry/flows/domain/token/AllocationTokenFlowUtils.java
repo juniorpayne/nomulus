@@ -156,7 +156,7 @@ public class AllocationTokenFlowUtils {
       Optional<AllocationToken> token, boolean isPremium)
       throws AllocationTokenInvalidForPremiumNameException {
     if (token.isPresent()
-        && token.get().getDiscountFraction() != 0.0
+        && (token.get().getDiscountFraction() != 0.0 || token.get().getDiscountPrice().isPresent())
         && isPremium
         && !token.get().shouldDiscountPremiums()) {
       throw new AllocationTokenInvalidForPremiumNameException();
@@ -288,6 +288,7 @@ public class AllocationTokenFlowUtils {
       super("Alloc token not in promo period");
     }
   }
+
   /** The allocation token is not valid for this TLD. */
   public static class AllocationTokenNotValidForTldException
       extends AssociationProhibitsOperationException {

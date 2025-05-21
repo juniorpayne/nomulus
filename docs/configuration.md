@@ -173,12 +173,12 @@ ${KEY_NAME}`.
 configuration. They contain any kind of configuration that is specific to a TLD,
 such as the create/renew price of a domain name, the pricing engine
 implementation, the DNS writer implementation, whether escrow exports are
-enabled, the default currency, the reserved label lists, and more. The `nomulus
-update_tld` command is used to set all of these options. See the
-[admin tool documentation](./admin-tool.md) for more information, as well as the
-command-line help for the `update_tld` command. Unlike global configuration
-above, per-TLD configuration options are stored as data in the running system,
-and thus do not require code pushes to update.
+enabled, the default currency, the reserved label lists, and more. The
+`configure_tld` command is used to set all of these options based on a YAML
+file. See the [admin tool documentation](./admin-tool.md) for more information,
+as well as the command-line help for the `configure_tld` command. Unlike global
+configuration above, per-TLD configuration options are stored as data in the
+running system, and thus do not require code pushes to update.
 
 [app-engine-config]: https://cloud.google.com/appengine/docs/java/configuration-files
 [default-config]: https://github.com/google/nomulus/blob/master/java/google/registry/config/files/default-config.yaml

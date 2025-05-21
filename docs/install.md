@@ -6,17 +6,16 @@ This document covers the steps necessary to download, build, and deploy Nomulus.
 
 You will need the following programs installed on your local machine:
 
-* A recent version of the [Java 11 JDK][java-jdk11].
-* [Google App Engine SDK for Java][app-engine-sdk], and configure aliases to the `gcloud` and `appcfg.sh` utilities (
-  you'll use them a lot).
+* [Java 21 JDK][java-jdk21].
+* [Google Cloud SDK](https://cloud.google.com/sdk/) for the `gcloud` command-line tool.
 * [Git](https://git-scm.com/) version control system.
 * Docker (confirm with `docker info` no permission issues, use `sudo groupadd docker` for sudoless docker).
 * Python version 3.7 or newer.
 * gnupg2 (e.g. in run `sudo apt install gnupg2` in Debian-like Linuxes)
 
-**Note:** App Engine does not yet support Java 9. Also, the instructions in this
-document have only been tested on Linux. They might work with some alterations
-on other operating systems.
+**Note:** Nomulus requires Java&nbsp;21. The instructions in this document have
+only been tested on Linux. They might work with some alterations on other
+operating systems.
 
 ## Download the codebase
 
@@ -131,8 +130,7 @@ files), you can rebuild and start using the `nomulus` tool to create test
 entities in your newly deployed system. See the [first steps tutorial](./first-steps-tutorial.md)
 for more information.
 
-[app-engine-sdk]: https://cloud.google.com/appengine/docs/java/download
-[java-jdk11]: https://www.oracle.com/java/technologies/javase-downloads.html 
+[java-jdk21]: https://www.oracle.com/java/technologies/javase/jdk21-downloads.html
 
 ## Deploy the BEAM Pipelines
 

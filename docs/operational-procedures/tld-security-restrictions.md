@@ -21,22 +21,32 @@ webhosts.
 
 To configure allowed nameservers on a TLD, use the
 `--allowed_nameservers`, `--add_allowed_nameservers`, and
-`--remove_allowed_nameservers` parameters on the `update_tld` command as
-follows:
+`--remove_allowed_nameservers` fields in the TLD's YAML configuration and then
+run the `configure_tld` command as follows:
 
-```shell
-$ nomulus -e {ENVIRONMENT} update_tld --allowed_nameservers {NS1,NS2,...} {TLD}
+```yaml
+allowedFullyQualifiedHostNames:
+- ns1.example.test
+- ns2.example.test
 ```
 
-Note that `--allowed_nameservers` can also be used with the `create_tld` command
-when the TLD is initially created.
+```shell
+$ nomulus -e {ENVIRONMENT} configure_tld --input {TLD}.yaml
+```
+
+The same YAML fields should be used when the TLD is initially created.
 
 To set the allowed registrants, use the analogous `--allowed_registrants`,
 `--add_allowed_registrants`, and `--remove_allowed_registrants` parameters:
 
+```yaml
+allowedRegistrantContactIds:
+- CONTACTID1
+- CONTACTID2
+```
+
 ```shell
-$ nomulus -e {ENVIRONMENT} update_tld \
-    --allowed_registrants {CONTACTID1,CONTACTID2,...} {TLD}
+$ nomulus -e {ENVIRONMENT} configure_tld --input {TLD}.yaml
 ```
 
 When nameserver or registrant restrictions are set on a TLD, any domain mutation
@@ -78,12 +88,15 @@ of type `NAMESERVER_RESTRICTED`. Each domain will thus also need to have
 explicitly allowed nameservers configured in its reserved list entry, per the
 previous section.
 
-To apply domain create restriction when creating/updating a TLD, use the
-`--domain_create_restricted` parameter as follows:
+To apply domain create restriction when creating or updating a TLD, set the
+`domainCreateRestricted` field in the YAML and run `configure_tld`:
+
+```yaml
+domainCreateRestricted: true
+```
 
 ```shell
-$ nomulus -e {ENVIRONMENT} [create_tld | update_tld] \
-    --domain_create_restricted [true | false] {TLD}
+$ nomulus -e {ENVIRONMENT} configure_tld --input {TLD}.yaml
 ```
 
 Note that you do **not** have to set a TLD-wide allowed nameservers list with

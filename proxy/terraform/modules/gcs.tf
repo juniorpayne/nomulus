@@ -1,6 +1,7 @@
 resource "google_storage_bucket" "proxy_certificate" {
   name          = var.proxy_certificate_bucket
-  storage_class = "MULTI_REGIONAL"
+  location      = var.proxy_certificate_bucket_location
+  storage_class = "STANDARD"
 }
 
 resource "google_storage_bucket_iam_member" "certificate_viewer" {

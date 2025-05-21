@@ -127,16 +127,16 @@ reserved lists applied. The list of reserved labels for a TLD is the union of
 all applied reserved lists, using the precedence rules described earlier when a
 label appears in more than one list.
 
-To add a reserved list to a TLD, run the `update_tld` command with the following
-parameter:
+To add a reserved list to a TLD, include the list name in the
+`reservedListNames` field of the TLD's YAML file and run `configure_tld`:
+
+```yaml
+reservedListNames:
+- common_bad-words
+```
 
 ```shell
-$ nomulus -e {ENVIRONMENT} update_tld exampletld \
-    --add_reserved_lists common_bad-words
-Update Registry@exampletld
-reservedLists: null -> [Key<?>(EntityGroupRoot("cross-tld")/ReservedList("common_bad-words"))]
-Perform this command? (y/N): y
-Updated 1 entities.
+$ nomulus -e {ENVIRONMENT} configure_tld --input exampletld.yaml
 ```
 
 The `--add_reserved_lists` parameter can take a comma-delimited list of reserved

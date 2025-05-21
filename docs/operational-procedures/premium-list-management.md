@@ -80,16 +80,15 @@ premium list must first be applied to a TLD before it will take effect. You will
 only need to do this when first creating a premium list; once it has been
 applied, it stays applied, and updates to the list are effective automatically.
 Note that each TLD can have no more than one premium list applied to it. To
-apply a premium list to a TLD, run the `update_tld` command with the following
-parameter:
+apply a premium list to a TLD, specify the list name in the `premiumListName`
+field of the TLD's YAML file and run `configure_tld`:
+
+```yaml
+premiumListName: exampletld
+```
 
 ```shell
-$ nomulus -e {ENVIRONMENT} update_tld exampletld --premium_list exampletld
-Update Registry@exampletld
-premiumList: null -> Key<?>(EntityGroupRoot("cross-tld")/PremiumList("exampletld"))
-
-Perform this command? (y/N): y
-Updated 1 entities.
+$ nomulus -e {ENVIRONMENT} configure_tld --input exampletld.yaml
 ```
 
 ## Checking which premium list is applied to a TLD

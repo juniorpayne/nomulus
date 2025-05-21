@@ -12,17 +12,16 @@ running registry system. We'll assume that all commands below are running in the
 `alpha` environment; if you named your environment differently, then use that
 everywhere that `alpha` appears.
 
-## Temporary extra steps
+## Temporary extra step
 
-Using the `nomulus` admin tool currently requires two additional steps to enable
-full functionality.  These steps should _not_ be done for a production
-deployment - a suitable solution for production is in progress.
+Using the `nomulus` admin tool currently requires an additional step to enable
+full functionality. This step should **not** be done for a production
+deployment—a suitable solution for production is in progress.
 
-Modify the `tools` module `web.xml` file to remove admin-only restrictions.
-Look for the `<auth-constraint>admin</auth-constraint>` element.  Comment out
-this element, and redeploy the tools module to your live app.
-
-[app-default-creds]: https://developers.google.com/identity/protocols/application-default-credentials
+Modify the `core/src/main/java/google/registry/env/common/tools/WEB-INF/web.xml`
+file to remove the admin-only restriction. Look for the
+`<auth-constraint>admin</auth-constraint>` element, comment it out and redeploy
+the tools module to your live app.
 
 ## Create a TLD
 
@@ -30,32 +29,41 @@ Pick the name of a TLD to create. For the purposes of this example we'll use
 "example", which conveniently happens to be an ICANN reserved string, meaning
 it'll never be created for real on the Internet at large.
 
+TLDs are configured via YAML files. Create a file `example.yaml` with the
+following minimal contents:
+
+```yaml
+tldStr: example
+tldType: TEST
+tldStateTransitions:
+  "1970-01-01T00:00:00.000Z": "GENERAL_AVAILABILITY"
+roidSuffix: EXAMPLE
+dnsWriters:
+  - VoidDnsWriter
+```
+
+Then run:
+
 ```shell
-$ nomulus -e alpha create_tld example --roid_suffix EXAMPLE \
-  --initial_tld_state GENERAL_AVAILABILITY --tld_type TEST \
-  --dns_writers VoidDnsWriter
+$ nomulus -e alpha configure_tld --input example.yaml
 [ ... snip confirmation prompt ... ]
 Perform this command? (y/N): y
 Updated 1 entities.
 ```
 
 *   `-e` is the environment name (`alpha` in this example).
-*   `create_tld` is the subcommand to create a TLD. The TLD name is "example"
-    which happens to be an ICANN reserved string, and therefore "example" can
-    never be created on the Internet at large.
-*   `--initial_tld_state` defines the initial state of the TLD.
-    `GENERAL_AVAILABILITY`, in the case of our example, allows you to
-    immediately create domain names by bypassing the sunrise and landrush domain
-    registration periods.
-*   `--tld_type` is the type of TLD. `TEST` identifies that the TLD is for
-    testing purposes, where `REAL` identifies the TLD is a live TLD.
-*   `roid_suffix` is the suffix that will be used for repository ids of domains
+*   `configure_tld` creates or updates a TLD based on the YAML file.
+*   `tldType` describes the TLD type. `TEST` identifies that the TLD is for
+    testing purposes, where `REAL` identifies a live TLD.
+*   `tldStateTransitions` defines the initial state of the TLD. In the example,
+    `GENERAL_AVAILABILITY` allows immediate domain creation.
+*   `roidSuffix` is the suffix that will be used for repository ids of domains
     on the TLD. This suffix must be all uppercase and a maximum of eight ASCII
     characters and can be set to the upper-case equivalent of our TLD name (if
     it is 8 characters or fewer), such as "EXAMPLE." You can also abbreviate the
     upper-case TLD name down to 8 characters. Refer to the [gTLD Registry
     Advisory: Correction of non-compliant ROIDs][roids] for further information.
-*   `--dns_writers` is the list of DNS writer modules that specify how changes
+*   `dnsWriters` is the list of DNS writer modules that specify how changes
     to domains for the TLD are communicated to actual DNS servers.  We use
     `VoidDnsWriter` in this case so as to not have to set up DNS.  Typically
     one might use CloudDnsWriter (for Google Cloud DNS) or implement your own

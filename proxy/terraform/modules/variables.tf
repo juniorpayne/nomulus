@@ -19,6 +19,18 @@ variable "proxy_certificate_bucket" {
     EOF
 }
 
+variable "proxy_certificate_bucket_location" {
+  description = "Location for the proxy certificate bucket"
+  type        = string
+  default     = "US"
+}
+
+variable "bucket_uniform_access" {
+  description = "Enable uniform bucket-level access on the certificate bucket"
+  type        = bool
+  default     = true
+}
+
 variable "proxy_key_ring" {
   default     = "proxy-key-ring"
   description = "Cloud KMS keyring name"

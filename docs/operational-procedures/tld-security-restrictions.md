@@ -30,11 +30,8 @@ allowedFullyQualifiedHostNames:
 - ns2.example.test
 ```
 
-```shell
-$ nomulus -e {ENVIRONMENT} configure_tld --input {TLD}.yaml
-```
-
-The same YAML fields should be used when the TLD is initially created.
+Note that `--allowed_nameservers` can also be used with the `configure_tld` command
+when the TLD is initially created using a YAML configuration file.
 
 To set the allowed registrants, use the analogous `--allowed_registrants`,
 `--add_allowed_registrants`, and `--remove_allowed_registrants` parameters:
@@ -96,7 +93,8 @@ domainCreateRestricted: true
 ```
 
 ```shell
-$ nomulus -e {ENVIRONMENT} configure_tld --input {TLD}.yaml
+# For existing TLDs, this would be set in the YAML configuration file
+# used with configure_tld command, in the domainCreateRestricted field
 ```
 
 Note that you do **not** have to set a TLD-wide allowed nameservers list with

@@ -1,35 +1,84 @@
 # Gradle Build Documentation
 
-## Initial Setup
+## Build System Overview
 
-Install Gradle on your local host, then run the following commands from this
-directory:
+Nomulus uses Gradle as its build system with a custom wrapper script `./nom_build` that provides additional functionality and convenience commands. The project comes with the Gradle wrapper pre-configured, so you don't need to install Gradle separately.
 
-```shell
-# One-time command to add gradle wrapper:
-gradle wrapper
+## nom_build Wrapper
 
-# Start the build:
-./gradlew build
-```
+The `./nom_build` script is the recommended way to interact with the build system. It's a Python wrapper around `gradlew` that:
 
-From now on, use './gradlew build' or './gradlew test' to build and test your
-changes.
+- Formalizes build properties as command-line flags
+- Provides convenient pseudo-commands
+- Ensures consistent build behavior across environments
 
-To upgrade to a new Gradle version for this project, use:
+### Common Commands
 
 ```shell
-gradle wrapper --gradle-version version-number
+# Build entire project and run all tests
+$ ./nom_build build
+
+# Run all tests
+$ ./nom_build test
+
+# Run tests for specific module
+$ ./nom_build :core:test
+
+# Run specific test class
+$ ./nom_build test --tests TestClassName
+
+# Format code automatically
+$ ./nom_build javaIncrementalFormatApply
+
+# Check code formatting
+$ ./nom_build javaIncrementalFormatCheck
+
+# Run presubmit checks (licensing, formatting, style)
+$ ./nom_build runPresubmits
+
+# Complete development workflow (format, build, test, presubmits)
+$ ./nom_build coreDev
+
+# Deploy to App Engine
+$ ./nom_build appengineDeploy --environment=alpha
+
+# Generate Gradle properties file
+$ ./nom_build --generate-gradle-properties
+
+# Show help
+$ ./nom_build --help
 ```
 
-## Deploy to AppEngine
+### Direct Gradle Usage
 
-Use the Gradle task 'appengineDeploy' to build and deploy to AppEngine. For now
-you must update the appengine.deploy.project in build.gradle to your
-GCP project ID.
+You can also use the Gradle wrapper directly for standard Gradle operations:
 
-To deploy the Gradle build, you will need the Google Cloud SDK and its
-app-engine-java component.
+```shell
+# Build project
+$ ./gradlew build
+
+# Run tests
+$ ./gradlew test
+
+# Run development server
+$ ./gradlew :core:runTestServer
+```
+
+## Deploy to App Engine
+
+Use the nom_build wrapper to deploy to App Engine:
+
+```shell
+$ ./nom_build appengineDeploy --environment=alpha
+```
+
+Before deploying, you must:
+1. Configure your project ID in `projects.gradle`
+2. Set up your environment configuration in the appropriate `nomulus-config-*.yaml` file
+3. Install the [Google Cloud SDK](https://cloud.google.com/sdk/docs/install)
+4. Authenticate with `gcloud auth login`
+
+The deployment process will build the application, package it for App Engine, and deploy all configured services.
 
 
 ### Notable Issues

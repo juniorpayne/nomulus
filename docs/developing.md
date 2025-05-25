@@ -14,16 +14,16 @@ registrar console: it allows you to update JS, CSS, images, and other front-end
 resources, and see the changes instantly simply by refreshing the relevant page
 in your browser.
 
-To see the registry server's command-line parameters, run:
+To start a local development instance of the registry server, run:
 
 ```shell
-$ bazel run //javatests/google/registry/server -- --help
+$ ./nom_build :core:runTestServer
 ```
 
-To start an instance of the server, run:
+This will start the `RegistryTestServer` using Gradle. You can also run it directly with:
 
 ```shell
-$ bazel run //javatests/google/registry/server {your params}
+$ ./gradlew :core:runTestServer
 ```
 
 Once it is running, you can interact with it via normal `nomulus` commands, or
@@ -33,5 +33,47 @@ will continue running until you terminate the process.
 
 If you are adding new URL paths, or new directories of web-accessible resources,
 you will need to make the corresponding changes in `RegistryTestServer`. This
-class contains all of the routing and static file information used by the local
+class is located at `core/src/test/java/google/registry/server/RegistryTestServer.java`
+and contains all of the routing and static file information used by the local
 development server.
+
+## Frontend Development
+
+For console-webapp frontend development:
+
+```shell
+# Install dependencies
+$ cd console-webapp
+$ npm install
+
+# Start development server with live reload
+$ npm run start:dev
+```
+
+The frontend development server will run on a different port and proxy API requests
+to the backend registry server.
+
+## Common Development Tasks
+
+```shell
+# Build the entire project
+$ ./nom_build build
+
+# Run all tests
+$ ./nom_build test
+
+# Run tests for a specific module
+$ ./nom_build :core:test
+
+# Run a specific test class
+$ ./nom_build test --tests TestClassName
+
+# Format code
+$ ./nom_build javaIncrementalFormatApply
+
+# Run presubmit checks
+$ ./nom_build runPresubmits
+
+# Run core development workflow (format, build, test, presubmits)
+$ ./nom_build coreDev
+```

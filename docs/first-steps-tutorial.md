@@ -29,20 +29,67 @@ Pick the name of a TLD to create. For the purposes of this example we'll use
 "example", which conveniently happens to be an ICANN reserved string, meaning
 it'll never be created for real on the Internet at large.
 
-TLDs are configured via YAML files. Create a file `example.yaml` with the
-following minimal contents:
+TLDs are now configured using YAML files. First, create a TLD configuration file `example.yaml`:
 
 ```yaml
-tldStr: example
-tldType: TEST
+# example.yaml - TLD configuration for .example
+addGracePeriodLength: "PT432000S"
+allowedFullyQualifiedHostNames: []
+allowedRegistrantContactIds: []
+anchorTenantAddGracePeriodLength: "PT2592000S"
+autoRenewGracePeriodLength: "PT3888000S"
+automaticTransferLength: "PT432000S"
+claimsPeriodEnd: "294247-01-10T04:00:54.775Z"
+createBillingCost:
+  currency: "USD"
+  amount: 8.00
+currency: "USD"
+defaultPromoTokens: []
+dnsAPlusAaaaTtl: null
+dnsDsTtl: null
+dnsNsTtl: null
+dnsPaused: true
+dnsWriters:
+- "VoidDnsWriter"
+driveFolderId: null
+eapFeeSchedule:
+  "1970-01-01T00:00:00.000Z":
+    currency: "USD"
+    amount: 0.00
+escrowEnabled: false
+idnTables: []
+invoicingEnabled: false
+lordnUsername: null
+numDnsPublishLocks: 1
+pendingDeleteLength: "PT432000S"
+premiumListName: null
+pricingEngineClassName: "google.registry.model.pricing.StaticPremiumListPricingEngine"
+redemptionGracePeriodLength: "PT2592000S"
+registryLockOrUnlockBillingCost:
+  currency: "USD"
+  amount: 0.00
+renewBillingCostTransitions:
+  "1970-01-01T00:00:00.000Z":
+    currency: "USD"
+    amount: 8.00
+renewGracePeriodLength: "PT432000S"
+reservedListNames: []
+restoreBillingCost:
+  currency: "USD"
+  amount: 50.00
+roidSuffix: "EXAMPLE"
+serverStatusChangeBillingCost:
+  currency: "USD"
+  amount: 0.00
 tldStateTransitions:
   "1970-01-01T00:00:00.000Z": "GENERAL_AVAILABILITY"
-roidSuffix: EXAMPLE
-dnsWriters:
-  - VoidDnsWriter
+tldStr: "example"
+tldType: "TEST"
+tldUnicode: "example"
+transferGracePeriodLength: "PT432000S"
 ```
 
-Then run:
+Then configure the TLD using the YAML file:
 
 ```shell
 $ nomulus -e alpha configure_tld --input example.yaml
@@ -52,22 +99,17 @@ Updated 1 entities.
 ```
 
 *   `-e` is the environment name (`alpha` in this example).
-*   `configure_tld` creates or updates a TLD based on the YAML file.
-*   `tldType` describes the TLD type. `TEST` identifies that the TLD is for
-    testing purposes, where `REAL` identifies a live TLD.
-*   `tldStateTransitions` defines the initial state of the TLD. In the example,
-    `GENERAL_AVAILABILITY` allows immediate domain creation.
-*   `roidSuffix` is the suffix that will be used for repository ids of domains
-    on the TLD. This suffix must be all uppercase and a maximum of eight ASCII
-    characters and can be set to the upper-case equivalent of our TLD name (if
-    it is 8 characters or fewer), such as "EXAMPLE." You can also abbreviate the
-    upper-case TLD name down to 8 characters. Refer to the [gTLD Registry
-    Advisory: Correction of non-compliant ROIDs][roids] for further information.
-*   `dnsWriters` is the list of DNS writer modules that specify how changes
-    to domains for the TLD are communicated to actual DNS servers.  We use
-    `VoidDnsWriter` in this case so as to not have to set up DNS.  Typically
-    one might use CloudDnsWriter (for Google Cloud DNS) or implement your own
-    solution.
+*   `configure_tld` is the subcommand to create or update a TLD using a YAML configuration file.
+*   `--input` specifies the path to the YAML configuration file.
+*   The YAML file defines all TLD properties including:
+    *   `tldStr`: The TLD name ("example")
+    *   `tldType`: `TEST` for testing purposes, `REAL` for live TLDs
+    *   `roidSuffix`: Repository ID suffix (must be uppercase, max 8 ASCII characters)
+    *   `tldStateTransitions`: Defines the TLD state over time (`GENERAL_AVAILABILITY` allows immediate domain creation)
+    *   `dnsWriters`: List of DNS writer modules (`VoidDnsWriter` for testing without real DNS)
+    *   Various grace periods, billing costs, and other registry parameters
+
+You can see the complete example TLD configuration in `core/src/main/java/google/registry/config/files/tld/example.yaml`.
 
 ## Create a registrar
 
@@ -164,7 +206,7 @@ To tie it all together, let's create a domain name that uses the above contact
 and host.
 
 ```shell
-$ nomulus -e alpha create_domain fake.example --client acme --admins abcd1234 \
+$ nomulus -e alpha create_domain fake.example -c acme --admins abcd1234 \
   --techs abcd1234 --registrant abcd1234 --nameservers ns1.google.com
 [ ... snip EPP response ... ]
 ```
@@ -173,7 +215,7 @@ Where:
 
 *   `create_domain` is the subcommand to create a domain name. It accepts a
     whitespace-separated list of domain names to be created
-*   `--client` is used to define the registrar.
+*   `-c` is used to define the registrar (same as `--client`).
 *   `--admins` is the administrative contact's id(s).
 *   `--techs` is the technical contact's id(s).
 *   `--registrant` is the registrant contact's id.

@@ -1,0 +1,185 @@
+{
+  "bindings": [
+    {
+      "members": [
+        "serviceAccount:634234313610@cloudbuild.gserviceaccount.com",
+        "serviceAccount:example-registry-alpha@appspot.gserviceaccount.com"
+      ],
+      "role": "roles/appengine.deployer"
+    },
+    {
+      "members": [
+        "serviceAccount:service-634234313610@gcp-gae-service.iam.gserviceaccount.com"
+      ],
+      "role": "roles/appengine.serviceAgent"
+    },
+    {
+      "members": [
+        "serviceAccount:634234313610-compute@developer.gserviceaccount.com"
+      ],
+      "role": "roles/artifactregistry.reader"
+    },
+    {
+      "members": [
+        "serviceAccount:service-634234313610@gcp-sa-artifactregistry.iam.gserviceaccount.com"
+      ],
+      "role": "roles/artifactregistry.serviceAgent"
+    },
+    {
+      "members": [
+        "serviceAccount:634234313610-compute@developer.gserviceaccount.com"
+      ],
+      "role": "roles/artifactregistry.writer"
+    },
+    {
+      "members": [
+        "serviceAccount:634234313610@cloudbuild.gserviceaccount.com"
+      ],
+      "role": "roles/cloudbuild.builds.builder"
+    },
+    {
+      "members": [
+        "serviceAccount:634234313610@cloudbuild.gserviceaccount.com",
+        "serviceAccount:example-registry-alpha@appspot.gserviceaccount.com"
+      ],
+      "role": "roles/cloudbuild.builds.editor"
+    },
+    {
+      "members": [
+        "serviceAccount:service-634234313610@gcp-sa-cloudbuild.iam.gserviceaccount.com"
+      ],
+      "role": "roles/cloudbuild.serviceAgent"
+    },
+    {
+      "members": [
+        "serviceAccount:service-634234313610@gcp-sa-cloudscheduler.iam.gserviceaccount.com"
+      ],
+      "role": "roles/cloudscheduler.serviceAgent"
+    },
+    {
+      "members": [
+        "serviceAccount:sql-proxy@example-registry-alpha.iam.gserviceaccount.com"
+      ],
+      "role": "roles/cloudsql.admin"
+    },
+    {
+      "members": [
+        "serviceAccount:example-registry-alpha@appspot.gserviceaccount.com"
+      ],
+      "role": "roles/cloudsql.client"
+    },
+    {
+      "members": [
+        "serviceAccount:service-634234313610@gcp-sa-cloudtasks.iam.gserviceaccount.com"
+      ],
+      "role": "roles/cloudtasks.serviceAgent"
+    },
+    {
+      "members": [
+        "serviceAccount:service-634234313610@compute-system.iam.gserviceaccount.com"
+      ],
+      "role": "roles/compute.serviceAgent"
+    },
+    {
+      "members": [
+        "serviceAccount:service-634234313610@gcp-sa-gkenode.iam.gserviceaccount.com"
+      ],
+      "role": "roles/container.defaultNodeServiceAgent"
+    },
+    {
+      "members": [
+        "serviceAccount:service-634234313610@container-engine-robot.iam.gserviceaccount.com"
+      ],
+      "role": "roles/container.serviceAgent"
+    },
+    {
+      "members": [
+        "user:junior@thepaynes.ca"
+      ],
+      "role": "roles/container.viewer"
+    },
+    {
+      "members": [
+        "serviceAccount:service-634234313610@containerregistry.iam.gserviceaccount.com"
+      ],
+      "role": "roles/containerregistry.ServiceAgent"
+    },
+    {
+      "members": [
+        "serviceAccount:634234313610@cloudservices.gserviceaccount.com"
+      ],
+      "role": "roles/editor"
+    },
+    {
+      "members": [
+        "serviceAccount:service-634234313610@gcp-sa-firestore.iam.gserviceaccount.com"
+      ],
+      "role": "roles/firestore.serviceAgent"
+    },
+    {
+      "members": [
+        "serviceAccount:proxy-service-account@example-registry-alpha.iam.gserviceaccount.com"
+      ],
+      "role": "roles/logging.logWriter"
+    },
+    {
+      "members": [
+        "serviceAccount:proxy-service-account@example-registry-alpha.iam.gserviceaccount.com"
+      ],
+      "role": "roles/monitoring.metricWriter"
+    },
+    {
+      "members": [
+        "serviceAccount:service-634234313610@gcp-sa-networkconnectivity.iam.gserviceaccount.com"
+      ],
+      "role": "roles/networkconnectivity.serviceAgent"
+    },
+    {
+      "members": [
+        "user:junior@thepaynes.ca"
+      ],
+      "role": "roles/owner"
+    },
+    {
+      "members": [
+        "serviceAccount:service-634234313610@gcp-sa-pubsub.iam.gserviceaccount.com"
+      ],
+      "role": "roles/pubsub.serviceAgent"
+    },
+    {
+      "members": [
+        "serviceAccount:example-registry-alpha@appspot.gserviceaccount.com"
+      ],
+      "role": "roles/secretmanager.secretAccessor"
+    },
+    {
+      "members": [
+        "serviceAccount:634234313610@cloudbuild.gserviceaccount.com",
+        "serviceAccount:example-registry-alpha@appspot.gserviceaccount.com"
+      ],
+      "role": "roles/storage.admin"
+    },
+    {
+      "members": [
+        "serviceAccount:634234313610-compute@developer.gserviceaccount.com",
+        "serviceAccount:proxy-service-account@example-registry-alpha.iam.gserviceaccount.com"
+      ],
+      "role": "roles/storage.objectViewer"
+    },
+    {
+      "members": [
+        "serviceAccount:service-634234313610@gcp-sa-vpcaccess.iam.gserviceaccount.com"
+      ],
+      "role": "roles/vpcaccess.serviceAgent"
+    },
+    {
+      "members": [
+        "serviceAccount:example-registry-alpha@appspot.gserviceaccount.com",
+        "user:junior@thepaynes.ca"
+      ],
+      "role": "roles/vpcaccess.user"
+    }
+  ],
+  "etag": "BwY1NOUPGwQ=",
+  "version": 1
+}

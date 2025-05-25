@@ -1,0 +1,97 @@
+# TLD Configuration for .tld
+# This file defines the configuration for the .tld top-level domain
+
+# Grace period lengths (in ISO 8601 duration format)
+addGracePeriodLength: "PT432000S"        # 5 days (432000 seconds)
+anchorTenantAddGracePeriodLength: "PT2592000S"  # 30 days
+autoRenewGracePeriodLength: "PT3888000S"  # 45 days
+automaticTransferLength: "PT432000S"      # 5 days
+pendingDeleteLength: "PT432000S"          # 5 days
+redemptionGracePeriodLength: "PT2592000S" # 30 days
+renewGracePeriodLength: "PT432000S"       # 5 days
+transferGracePeriodLength: "PT432000S"    # 5 days
+
+# TLD identification
+tldStr: "tld"
+tldUnicode: "tld"
+tldType: "REAL"  # Use "REAL" for production TLD, "TEST" for testing
+roidSuffix: "TLD"
+
+# Creation and modification timestamps
+creationTime: "2025-05-25T18:00:00.000Z"
+
+# TLD state transitions (lifecycle management)
+tldStateTransitions:
+  "2025-05-25T18:00:00.000Z": "GENERAL_AVAILABILITY"
+
+# Claims period (set far in future to disable claims period)
+claimsPeriodEnd: "2099-12-31T23:59:59.999Z"
+
+# Pricing configuration
+currency: "USD"
+createBillingCost:
+  currency: "USD"
+  amount: 10.00
+
+renewBillingCostTransitions:
+  "2025-05-25T18:00:00.000Z":
+    currency: "USD"
+    amount: 10.00
+
+restoreBillingCost:
+  currency: "USD"
+  amount: 100.00
+
+registryLockOrUnlockBillingCost:
+  currency: "USD"
+  amount: 0.00
+
+serverStatusChangeBillingCost:
+  currency: "USD"
+  amount: 0.00
+
+# Early Access Program (EAP) pricing
+eapFeeSchedule:
+  "2025-05-25T18:00:00.000Z":
+    currency: "USD"
+    amount: 0.00
+
+# DNS configuration
+dnsWriters:
+  - "VoidDnsWriter"  # Change to "CloudDnsWriter" for production
+dnsPaused: false
+numDnsPublishLocks: 1
+
+# DNS TTL settings (null means use defaults)
+dnsAPlusAaaaTtl: null
+dnsDsTtl: null
+dnsNsTtl: null
+
+# Premium and reserved lists
+premiumListName: null       # Set to premium list name if using premium pricing
+reservedListNames: []       # Add reserved list names if using reserved terms
+defaultPromoTokens: []      # Default promotional tokens
+
+# Pricing engine
+pricingEngineClassName: "google.registry.model.pricing.StaticPremiumListPricingEngine"
+
+# IDN (Internationalized Domain Names) configuration
+idnTables: []               # Add IDN table names if supporting non-ASCII domains
+
+# Registry features
+escrowEnabled: true         # Enable Registry Data Escrow
+invoicingEnabled: true      # Enable billing and invoicing
+breakglassMode: false       # Emergency access mode
+
+# LORDN (List of Registered Domain Names) configuration
+lordnUsername: null         # LORDN username if required
+
+# Google Drive integration (for reports)
+driveFolderId: null         # Google Drive folder ID for reports
+
+# Allowed contacts and hosts (empty means no restrictions)
+allowedRegistrantContactIds: []
+allowedFullyQualifiedHostNames: []
+
+# BSA (Brand Security Alliance) configuration
+bsaEnrollDate: null         # Set date if enrolling in BSA blocking service

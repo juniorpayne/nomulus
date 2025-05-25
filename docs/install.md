@@ -6,16 +6,15 @@ This document covers the steps necessary to download, build, and deploy Nomulus.
 
 You will need the following programs installed on your local machine:
 
-* [Java 21 JDK][java-jdk21].
-* [Google Cloud SDK](https://cloud.google.com/sdk/) for the `gcloud` command-line tool.
+* [Java 21 JDK][java-jdk21] (Java 11 JDK for development environment, but source/target compatibility is Java 21).
+* [Google Cloud SDK][google-cloud-sdk] with the `gcloud` command-line tool.
 * [Git](https://git-scm.com/) version control system.
-* Docker (confirm with `docker info` no permission issues, use `sudo groupadd docker` for sudoless docker).
-* Python version 3.7 or newer.
-* gnupg2 (e.g. in run `sudo apt install gnupg2` in Debian-like Linuxes)
+* [Docker](https://docs.docker.com/get-docker/) (confirm with `docker info` - no permission issues, use `sudo usermod -aG docker $USER` for sudoless docker).
+* [Python](https://python.org/) version 3.7 or newer.
+* [Node.js](https://nodejs.org/) version 22.7.0 (required for frontend development).
+* gnupg2 (e.g. run `sudo apt install gnupg2` on Debian-like Linux distributions)
 
-**Note:** Nomulus requires Java&nbsp;21. The instructions in this document have
-only been tested on Linux. They might work with some alterations on other
-operating systems.
+**Note:** The instructions in this document have been tested on Linux. They should work with some alterations on other operating systems (macOS, Windows).
 
 ## Download the codebase
 
@@ -30,24 +29,34 @@ Cloning into 'nomulus'...
 [ .. snip .. ]
 $ cd nomulus
 $ ls
-apiserving       CONTRIBUTORS  java        LICENSE    scripts
-AUTHORS          docs          javascript  python     third_party
-CONTRIBUTING.md  google        javatests   README.md  WORKSPACE
+AUTHORS          console-webapp  docs      gradle.properties  nomulus-logo.png  proxy
+build.gradle     CONTRIBUTORS    gradle    gradlew            package.json      release
+CLAUDE.md        core            gradle.lockfile  gradlew.bat  prober      services
+common           db              integration  load-testing    processor   util
+config           dependencies.gradle  jetty    networking      projects.gradle
 ```
 
-Most of the directory tree is organized into gradle sub-projects (see
-`settings.gradle` for details).  The following other top-level directories are
-also defined:
+Most of the directory tree is organized into Gradle sub-projects (see
+`settings.gradle` for details). The following key directories are defined:
 
-*   `buildSrc` -- Gradle extensions specific to our local build and release
-    methodology.
-*   `config` -- Tools for build and code hygiene.
-*   `docs` -- The documentation (including this install guide)
-*   `gradle` -- Configuration and code managed by the gradle build system.
-*   `java-format` -- The Google java formatter and wrapper scripts to use it
-    incrementally.
-*   `python` -- Some Python reporting scripts
-*   `release` -- Configuration for our continuous integration process.
+**Core Modules:**
+*   `core/` -- Main registry application with EPP flows, DNS, WHOIS, RDAP
+*   `db/` -- Database schema, Flyway migrations, and persistence layer
+*   `console-webapp/` -- Angular-based registrar console web interface
+*   `proxy/` -- TCP-to-HTTP proxy for EPP traffic
+*   `jetty/` -- Jetty-based HTTP server deployment
+
+**Services:**
+*   `services/` -- App Engine service configurations (default, backend, tools, bsa, pubapi)
+
+**Supporting:**
+*   `common/` -- Shared utilities (Clock, DateTimeUtils, etc.)
+*   `util/` -- Additional utility classes
+*   `config/` -- Build tools and code hygiene scripts
+*   `docs/` -- Documentation (including this install guide)
+*   `gradle/` -- Gradle wrapper and configuration
+*   `java-format/` -- Google Java formatter and scripts
+*   `release/` -- CI/CD and deployment configuration
 
 ## Build the codebase
 

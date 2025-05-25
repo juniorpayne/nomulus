@@ -5,9 +5,8 @@ using the `nomulus` command. It has the ability to view and change a large
 number of things in a live Nomulus environment, including creating registrars,
 updating premium and reserved lists, running an EPP command from a given XML
 file, and performing various backend tasks like re-running RDE if the most
-recent export failed. Its code lives inside the tools package
-(`java/google/registry/tools`), and is compiled by building the `nomulus` target
-in the Bazel BUILD file in that package.
+recent export failed. Its code lives inside the core module
+(`core/src/main/java/google/registry/tools`), and is compiled as part of the main build.
 
 The tool connects to the Google Cloud Platform project (identified by project
 ID) that was configured in your implementation of `RegistryConfig` when the tool
@@ -21,13 +20,20 @@ ID is also "acme-registry", and the project ID for the sandbox environment is
 
 ## Build the tool
 
-To build the `nomulus` tool, execute the following `bazel build` command inside
-any directory of the codebase. You must rebuild the tool any time that you edit
+To build the `nomulus` tool, execute the following Gradle command from the root
+directory of the codebase. You must rebuild the tool any time that you edit
 configuration or make database schema changes.
 
 ```shell
-$ bazel build //java/google/registry/tools:nomulus
+# Build the entire project including the nomulus tool
+$ ./nom_build build
+
+# Or build just the core module
+$ ./nom_build :core:build
 ```
+
+The nomulus tool is built as part of the core module and can be found in the
+generated JAR files after building.
 
 It's recommended that you alias the compiled binary located at
 `bazel-genfiles/java/google/registry/nomulus` (or add it to your shell path) so

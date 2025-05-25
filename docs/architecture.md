@@ -14,10 +14,10 @@ below.
 
 ### Services
 
-Nomulus contains three [App Engine
+Nomulus contains five [App Engine
 services](https://cloud.google.com/appengine/docs/python/an-overview-of-app-engine),
 which were previously called modules in earlier versions of App Engine. The
-services are: default (also called front-end), backend, and tools. Each service
+services are: **default** (also called frontend), **backend**, **tools**, **bsa**, and **pubapi**. Each service
 runs independently in a lot of ways, including that they can be upgraded
 individually, their log outputs are separate, and their servers and configured
 scaling are separate as well.
@@ -28,8 +28,13 @@ is named for "project-id". Note that that is the URL for the production instance
 of your app; other environments will have the environment name appended with a
 hyphen in the hostname, e.g. `https://project-id-sandbox.appspot.com`.
 
-The URL for the backend service is `https://backend-dot-project-id.appspot.com`
-and the URL for the tools service is `https://tools-dot-project-id.appspot.com`.
+The URLs for the various services follow the pattern `https://SERVICE-dot-project-id.appspot.com`:
+
+- Backend: `https://backend-dot-project-id.appspot.com`
+- Tools: `https://tools-dot-project-id.appspot.com`
+- BSA: `https://bsa-dot-project-id.appspot.com`
+- Public API: `https://pubapi-dot-project-id.appspot.com`
+
 The reason that the dot is escaped rather than forming subdomains is because the
 SSL certificate for `appspot.com` is only valid for `*.appspot.com` (no double
 wild-cards).
@@ -74,12 +79,20 @@ which provides all of the endpoints exposed in `BsaRequestComponent`. These
 include tasks for downloading, processing and uploading BSA data.
 
 
+#### Public API (pubapi) service
+
+The pubapi service provides public-facing API endpoints for external consumers.
+This service handles RDAP (Registration Data Access Protocol) requests and other
+public data access patterns. Requests to the pubapi service are handled by the
+`PubapiServlet`, which provides all of the endpoints exposed in
+`PubapiRequestComponent`.
+
 #### Tools service
 
 The tools service is responsible for servicing requests from the `nomulus`
 command line tool, which provides administrative-level functionality for
 developers and tech support employees of the registry. It is thus the least
-critical of the three services. Requests to the tools service are handled by the
+critical of the five services. Requests to the tools service are handled by the
 `ToolsServlet`, which provides all of the endpoints exposed in
 `ToolsRequestComponent`. Some example functionality that this service provides
 includes the server-side code to update premium lists, run EPP commands from the

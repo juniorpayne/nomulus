@@ -3,54 +3,112 @@
 This document contains information on the overall structure of the code, and how
 particularly important pieces of the system are implemented.
 
-## Bazel build system
+## Gradle build system
 
-[Bazel](https://www.bazel.io/) is used to build and test the Nomulus codebase.
+[Gradle](https://gradle.org/) is used to build and test the Nomulus codebase. The project uses a custom wrapper script `./nom_build` that provides additional functionality on top of the standard Gradle wrapper.
 
-Bazel builds are described using [BUILD
-files](https://www.bazel.io/versions/master/docs/build-ref.html). A directory
-containing a BUILD file defines a package consisting of all files and
-directories underneath it, except those directories which themselves also
-contain BUILD files. A package contains targets. Most targets in the codebase
-are of the type `java_library`, which generates `JAR` files, or `java_test`,
-which runs tests.
+### Project Structure
 
-The key to Bazel's ability to create reproducible builds is the requirement that
-each build target must declare its direct dependencies. Each of those
-dependencies is a target, which, in turn, must also declare its dependencies.
-This recursive description of a target's dependencies forms an acyclic graph
-that fully describes the targets which must be built in order to build any
-target in the graph.
+The codebase is organized into multiple Gradle subprojects defined in `settings.gradle`:
 
-A wrinkle in this system is managing external dependencies. Bazel was designed
-first and foremost to manage builds where all code lives in a single source
-repository and is compiled from `HEAD`. In order to mesh with other build and
-packaging schemes, such as libraries distributed as compiled `JAR`s, Bazel
-supports [external target
-declarations](https://www.bazel.io/versions/master/docs/external.html#transitive-dependencies).
-The Nomulus codebase uses external targets pulled in from Maven Central, these
-are declared in `java/google/registry/repositories.bzl`. The dependencies of
-these external targets are not managed by Bazel; you must manually add all of
-the dependencies or use the
-[generate_workspace](https://docs.bazel.build/versions/master/generate-workspace.html)
-tool to do it.
+**Core Modules:**
+- `core` - Main registry application containing EPP flows, DNS, WHOIS, RDAP
+- `db` - Database schema, Flyway migrations, JPA entities
+- `console-webapp` - Angular-based registrar console frontend
+- `proxy` - TCP-to-HTTP proxy for EPP traffic
+- `jetty` - Jetty-based HTTP server deployment
 
-### Generating EAR/WAR archives for deployment
+**Service Modules:**
+- `services/default` - Frontend service (EPP, WHOIS, RDAP, web consoles)
+- `services/backend` - Background tasks, cron jobs, async processing
+- `services/tools` - Administrative tooling service
+- `services/bsa` - BSA (Brand Security Alliance) processing
+- `services/pubapi` - Public API endpoints
 
-There are special build target types for generating `WAR` and `EAR` files for
-deploying Nomulus to GAE. These targets, `zip_file` and `registry_ear_file` respectively, are used in `java/google/registry/BUILD`. To generate archives suitable for deployment on GAE:
+**Supporting Libraries:**
+- `common` - Shared utilities (Clock, DateTimeUtils, Sleeper)
+- `util` - Additional utility classes
+- `networking` - Network-related functionality
+- `processor` - Annotation processors
+- `prober` - Monitoring and health check probes
+- `load-testing` - Performance testing tools
+- `integration` - Integration testing framework
+
+### Build Commands
+
+The project uses the `./nom_build` wrapper script for all build operations:
 
 ```shell
-$ bazel build java/google/registry:registry_ear
-  ...
-  bazel-genfiles/java/google/registry/registry.ear
-INFO: Elapsed time: 0.216s, Critical Path: 0.00s
-# This will also generate the per-module WAR files:
-$ ls bazel-genfiles/java/google/registry/*.war
-bazel-genfiles/java/google/registry/registry_backend.war
-bazel-genfiles/java/google/registry/registry_default.war
-bazel-genfiles/java/google/registry/registry_tools.war
+# Build entire project
+$ ./nom_build build
+
+# Run all tests
+$ ./nom_build test
+
+# Run tests for specific module
+$ ./nom_build :core:test
+
+# Run specific test class
+$ ./nom_build test --tests TestClassName
+
+# Format code
+$ ./nom_build javaIncrementalFormatApply
+
+# Run presubmit checks
+$ ./nom_build runPresubmits
+
+# Core development workflow
+$ ./nom_build coreDev
 ```
+
+### Deployment
+
+For App Engine deployment:
+
+```shell
+# Deploy to specific environment
+$ ./nom_build appengineDeploy --environment=alpha
+
+# Stage BEAM pipelines
+$ ./nom_build :core:stageBeamPipelines --environment=alpha
+```
+
+### Dependencies
+
+External dependencies are managed through Gradle's dependency management system. Dependencies are declared in `dependencies.gradle` and imported into individual module `build.gradle` files. The project uses dependency locking to ensure reproducible builds.
+
+Dependency versions and configurations are centralized in `dependencies.gradle`, with individual modules importing only the dependencies they need.
+
+## Domain Model
+
+### EPP Resources
+
+`EppResource` is the base class for objects allocated within a registry via EPP.
+The classes that extend `EppResource` (along with the RFCs that define them) are
+as follows:
+
+*   `Domain` ([RFC 5731](https://tools.ietf.org/html/rfc5731))
+*   `Host` ([RFC 5732](https://tools.ietf.org/html/rfc5732))
+*   `Contact` ([RFC 5733](https://tools.ietf.org/html/rfc5733))
+
+All `EppResource` entities use a Repository Object Identifier (ROID) as its
+unique id, in the format specified by [RFC
+5730](https://tools.ietf.org/html/rfc5730#section-2.8) and defined in
+`EppResourceUtils.createRoid()`.
+
+### Foreign Key Indexes
+
+Foreign key indexes provide a means of loading active instances of `EppResource`
+objects by their unique IDs:
+
+*   `Domain`: fully-qualified domain name
+*   `Contact`: contact id
+*   `Host`: fully-qualified host name
+
+Since all `EppResource` entities are indexed on ROID (which is also unique, but
+not as useful as the resource's name), the `ForeignKeyUtils` provides a way to
+look up the resources using another key which is also unique during the lifetime
+of the resource (though not for all time).
 
 ## Cursors
 
@@ -136,21 +194,6 @@ type objects are immutable and have sane default implementations of `toString`,
 `hashCode`, and `equals`. They are often used as parameters and return values to
 encapsulate related values together.
 
-## EPP resources
-
-`EppResource` is the base class for objects allocated within a registry via EPP.
-The classes that extend `EppResource` (along with the RFCs that define them) are
-as follows:
-
-*   `Domain` ([RFC 5731](https://tools.ietf.org/html/rfc5731))
-*   `Host` ([RFC 5732](https://tools.ietf.org/html/rfc5732))
-*   `Contact` ([RFC 5733](https://tools.ietf.org/html/rfc5733))
-
-All `EppResource` entities use a Repository Object Identifier (ROID) as its
-unique id, in the format specified by [RFC
-5730](https://tools.ietf.org/html/rfc5730#section-2.8) and defined in
-`EppResourceUtils.createRoid()`.
-
 Each entity also tracks a number of timestamps related to its lifecycle (in
 particular, creation time, past or future deletion time, and last update time).
 The way in which an EPP resource's active/deleted status is determined is by
@@ -161,20 +204,6 @@ resource when it is deleted.
 There are a number of other useful utility methods for interacting with EPP
 resources in the `EppResourceUtils` class, many of which deal with inspecting
 the status of a resource at a given point in time.
-
-## Foreign key indexes
-
-Foreign key indexes provide a means of loading active instances of `EppResource`
-objects by their unique IDs:
-
-*   `Domain`: fully-qualified domain name
-*   `Contact`: contact id
-*   `Host`: fully-qualified host name
-
-Since all `EppResource` entities are indexed on ROID (which is also unique, but
-not as useful as the resource's name), the `ForeignKeyUtils` provides a way to
-look up the resources using another key which is also unique during the lifetime
-of the resource (though not for all time).
 
 It is important to note that throughout the lifecycle of an `EppResource`, the
 underlying entity is never hard-deleted; its deletion time is set to the time at

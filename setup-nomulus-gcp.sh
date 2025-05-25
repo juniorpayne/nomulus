@@ -278,10 +278,7 @@ if ! gcloud sql instances describe nomulus-db &>/dev/null; then
     
     log_success "Created Cloud SQL instance: nomulus-db"
     
-    # Create application database
-    log_info "Creating nomulus-db database..."
-    gcloud sql databases create nomulus-db --instance=nomulus-db
-    log_success "Created nomulus-db database"
+    # Note: Nomulus uses the default 'postgres' database (created automatically)
     
 else
     log_warning "Cloud SQL instance nomulus-db already exists"
@@ -366,7 +363,7 @@ echo "  • Region: $REGION"
 echo "  • Service Accounts: 2 custom + default accounts"
 echo "  • Storage Buckets: ${#BUCKETS[@]} + App Engine buckets"
 echo "  • KMS Key Rings: 2 (with 2 encryption keys)"
-echo "  • Cloud SQL: PostgreSQL 17 instance with nomulus-db database"
+echo "  • Cloud SQL: PostgreSQL 17 instance (uses default 'postgres' database)"
 echo "  • APIs: 43 enabled services"
 echo ""
 log_info "Next steps:"

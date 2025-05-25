@@ -9,7 +9,7 @@ set -euo pipefail
 # Configuration
 PROJECT_ID="${1:-}"
 REGION="${2:-us-central1}"
-SQL_TIER="${3:-db-custom-2-8192}"  # 2 vCPUs, 8GB RAM
+SQL_TIER="${3:-db-perf-optimized-N-2}"  # 2 vCPUs, 16GB RAM (Enterprise Plus)
 LOCATION="US"  # Multi-region location for buckets
 
 # Colors for output
@@ -43,11 +43,11 @@ usage() {
     echo "Arguments:"
     echo "  PROJECT_ID    Required. The GCP project ID for the Nomulus deployment"
     echo "  REGION        Optional. The GCP region (default: us-central1)"
-    echo "  SQL_TIER      Optional. Cloud SQL tier (default: db-custom-2-8192)"
+    echo "  SQL_TIER      Optional. Cloud SQL tier (default: db-perf-optimized-N-2)"
     echo ""
     echo "Examples:"
     echo "  $0 my-registry-prod"
-    echo "  $0 my-registry-staging us-west1 db-custom-1-4096"
+    echo "  $0 my-registry-staging us-west1 db-perf-optimized-N-1"
     exit 1
 }
 
@@ -271,7 +271,6 @@ if ! gcloud sql instances describe nomulus-db &>/dev/null; then
         --storage-size=100GB \
         --storage-auto-increase \
         --backup-start-time=03:00 \
-        --enable-bin-log \
         --maintenance-release-channel=production \
         --maintenance-window-day=SUN \
         --maintenance-window-hour=04 \

@@ -1,1 +1,120 @@
-# Add environment-specific configuration here.
+# Alpha environment configuration for newreg-460918 (.tld registry)
+# This file overrides default-config.yaml values for the alpha environment
+
+gcpProject:
+  # GCP project configuration
+  projectId: newreg-460918
+  projectIdNumber: 680343905479
+  locationId: us-central1
+  isLocal: false
+  
+  # Service URLs for the registry
+  defaultServiceUrl: https://newreg-460918.uc.r.appspot.com
+  backendServiceUrl: https://backend-dot-newreg-460918.uc.r.appspot.com
+  bsaServiceUrl: https://bsa-dot-newreg-460918.uc.r.appspot.com
+  toolsServiceUrl: https://tools-dot-newreg-460918.uc.r.appspot.com
+  pubapiServiceUrl: https://pubapi-dot-newreg-460918.uc.r.appspot.com
+  
+  # Base domain for registry services
+  baseDomain: registry.tld
+
+gSuite:
+  # Registry domain and email configuration
+  domainName: registry.tld
+  
+  # Email configuration
+  outgoingEmailDisplayName: TLD Registry
+  outgoingEmailAddress: noreply@newreg-460918.appspotmail.com
+  newOutgoingEmailAddress: noreply@registry.tld
+  replyToEmailAddress: registry@registry.tld
+  
+  # Admin account configuration
+  adminAccountEmailAddress: admin@registry.tld
+  supportGroupEmailAddress: support@registry.tld
+  consoleUserGroupEmailAddress: users@registry.tld
+
+registryPolicy:
+  # Registry branding and identification
+  productName: TLD Registry
+  contactAndHostRoidSuffix: TLD
+  
+  # Registry admin registrar
+  registryAdminClientId: admin-registrar
+  
+  # WHOIS and policy configuration
+  defaultRegistrarWhoisServer: whois.registry.tld
+  greetingServerId: TLD Registry
+  
+  # TMCH configuration (PILOT for testing environments)
+  tmchCaMode: PILOT
+  tmchCrlUrl: http://crl.icann.org/tmch_pilot.crl
+  tmchMarksDbUrl: https://test-ry.marksdb.org
+  
+  # Notification settings
+  registrarChangesNotificationEmailAddresses:
+    - admin@registry.tld
+
+cloudSql:
+  # Database configuration for Cloud SQL instance
+  jdbcUrl: jdbc:postgresql://google/postgres?cloudSqlInstance=newreg-460918:us-central1:nomulus-db&socketFactory=com.google.cloud.sql.postgres.SocketFactory&useSSL=false
+  instanceConnectionName: newreg-460918:us-central1:nomulus-db
+
+# OAuth configuration for registry tool authentication
+registryTool:
+  clientId: "680343905479-j897k8vg44s25cng3b3bcu917n31g7ee.apps.googleusercontent.com"
+  clientSecret: "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"
+
+auth:
+  # OAuth client configuration for console authentication
+  oauthClientId: # Will be configured after OAuth setup
+  
+  # Allowed OAuth client IDs (will include nomulus tool client ID)
+  allowedOauthClientIds: 
+    - "680343905479-j897k8vg44s25cng3b3bcu917n31g7ee.apps.googleusercontent.com"
+  
+  # Allowed service account emails for API access
+  allowedServiceAccountEmails:
+    - newreg-460918@appspot.gserviceaccount.com
+    - proxy-service-account@newreg-460918.iam.gserviceaccount.com
+
+beam:
+  # Apache Beam (Cloud Dataflow) configuration
+  defaultJobRegion: us-central1
+  stagingBucketUrl: gs://newreg-460918-snapshots/beam-staging
+  initialWorkerCount: 1
+  highPerformanceMachineType: n1-highmem-8
+
+billing:
+  # Billing and invoicing configuration
+  invoiceEmailRecipients:
+    - billing@registry.tld
+  invoiceReplyToEmailAddress: billing@registry.tld
+  invoiceFilePrefix: tld-registry-invoice
+  billingInvoiceOriginUrl: https://console.registry.tld
+
+rde:
+  # Registry Data Escrow configuration
+  reportUrlPrefix: https://registry.tld/rde-reports
+  uploadUrl: gs://newreg-460918-rde
+  sshIdentityEmailAddress: rde@registry.tld
+
+icannReporting:
+  # ICANN reporting endpoints
+  icannTransactionsReportingUploadUrl: https://registry.tld/icann-transactions
+  icannActivityReportingUploadUrl: https://registry.tld/icann-activity
+
+monitoring:
+  # Monitoring and metrics configuration
+  stackdriverMaxQps: 30
+  stackdriverMaxPointsPerRequest: 200
+  writeIntervalSeconds: 60
+
+registrarConsole:
+  # Registrar console configuration
+  supportPhoneNumber: "+1-555-REGISTRY"
+  supportEmailAddress: support@registry.tld
+  technicalDocsUrl: https://docs.registry.tld
+
+misc:
+  # Miscellaneous settings
+  sheetExportUtils: true

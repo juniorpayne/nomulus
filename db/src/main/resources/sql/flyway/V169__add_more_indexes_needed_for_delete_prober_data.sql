@@ -12,5 +12,5 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-CREATE INDEX CONCURRENTLY IF NOT EXISTS IDXhteajcrxmq4o8rsys8kevyiqr ON "Domain" (transfer_billing_cancellation_id);
-CREATE INDEX CONCURRENTLY IF NOT EXISTS IDXorp4yv9ult4ds6kgxo5fs5gnw ON "Host" (superordinate_domain);
+CREATE INDEX IF NOT EXISTS IDXhteajcrxmq4o8rsys8kevyiqr ON "Domain" (transfer_billing_cancellation_id);
+CREATE INDEX IF NOT EXISTS IDXorp4yv9ult4ds6kgxo5fs5gnw ON "Host" (superordinate_domain);

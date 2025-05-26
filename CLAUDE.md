@@ -130,6 +130,59 @@ The project is organized into Gradle subprojects:
 - **Schema validation**: Automated checks against golden files
 - **Test data**: Comprehensive test fixtures and builders
 
+### Database Setup Automation
+
+Use the `setup-database.sh` script to automate complete database initialization:
+
+```bash
+# Run with default settings
+./setup-database.sh
+
+# Or with custom environment variables
+PROJECT_ID=my-project INSTANCE_NAME=my-db ./setup-database.sh
+
+# View help
+./setup-database.sh --help
+```
+
+The script automatically:
+1. Creates required database users (schema_deployer, nomulus_user, readonly_user)
+2. Fixes migration files for concurrent index issues
+3. Runs all Flyway migrations (handles checksum mismatches)
+4. Sets up proper database permissions
+5. Validates all connections
+
+### Manual Database Operations
+
+#### Flyway Commands
+```bash
+# Check migration status
+./nom_build :db:flywayInfo --dbServer=localhost:5432 --dbUser=schema_deployer --dbPassword=deployer123 --dbName=postgres
+
+# Run migrations
+./nom_build :db:flywayMigrate --dbServer=localhost:5432 --dbUser=schema_deployer --dbPassword=deployer123 --dbName=postgres
+
+# Repair checksums (after modifying migration files)
+./nom_build :db:flywayRepair --dbServer=localhost:5432 --dbUser=schema_deployer --dbPassword=deployer123 --dbName=postgres
+```
+
+#### Connection Testing
+```bash
+# Test database connection
+PGPASSWORD="deployer123" psql -h localhost -p 5432 -U schema_deployer -d postgres -c "SELECT version();"
+
+# Kill blocking connections (if needed)
+PGPASSWORD="deployer123" psql -h localhost -p 5432 -U schema_deployer -d postgres -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = 'postgres' AND usename = 'schema_deployer' AND application_name = 'PostgreSQL JDBC Driver';"
+```
+
+#### Known Issues and Solutions
+
+**Concurrent Index Creation**: Migration files V165 and V169 originally used `CREATE INDEX CONCURRENTLY` which blocks in Flyway's transactional context. The setup script automatically fixes these by removing the `CONCURRENTLY` keyword.
+
+**Migration Checksum Mismatch**: If you modify migration files after they've been applied, use `flywayRepair` to update checksums before running migrations again.
+
+**Connection Blocking**: Long-running transactions can block concurrent index creation. The setup script automatically detects and terminates blocking connections.
+
 ## Frontend Development (console-webapp)
 
 - **Framework**: Angular with TypeScript

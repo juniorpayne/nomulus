@@ -18,7 +18,7 @@
 // The projects to run your deployment Nomulus application.
 rootProject.ext.projects = ['production': 'your-production-project',
                             'sandbox'   : 'your-sandbox-project',
-                            'alpha'     : 'your-alpha-project',
+                            'alpha'     : 'newreg-460918',
                             'crash'     : 'your-crash-project',
                             'qa'        : 'your-qa-project']
 
@@ -28,6 +28,6 @@ rootProject.ext.devProject = 'your-dev-project'
 
 rootProject.ext.baseDomains = ['production' : 'registry-production.test',
                               'sandbox'   : 'registry-sandbox.test',
-                              'alpha'     : 'registry-alpha.test',
+                              'alpha'     : 'registry.tld',
                               'crash'     : 'registry-crash.test',
                               'qa'        : 'registry-qa.test']

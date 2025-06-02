@@ -30,7 +30,7 @@ variable "proxy_key" {
 }
 
 variable "proxy_ports" {
-  type        = map
+  type        = map(number)
   description = "Node ports exposed by the proxy."
 
   default = {
@@ -43,7 +43,7 @@ variable "proxy_ports" {
 }
 
 variable "proxy_ports_canary" {
-  type        = map
+  type        = map(number)
   description = "Node ports exposed by the canary proxy."
 
   default = {

@@ -1,5 +1,5 @@
 variable "proxy_instance_groups" {
-  type        = map
+  type        = map(string)
   description = "Instance groups that the load balancer forwards traffic to."
 }
 
@@ -9,7 +9,7 @@ variable "suffix" {
 }
 
 variable "proxy_ports" {
-  type        = map
+  type        = map(number)
   description = "Node ports exposed by the proxy."
 }
 

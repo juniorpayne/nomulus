@@ -1,4 +1,13 @@
 terraform {
+  required_version = ">= 1.0"
+  
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 6.37.0"
+    }
+  }
+  
   backend "gcs" {
     # The name of the GCS bucket that stores the terraform.tfstate file.
     bucket = "YOUR_GCS_BUCKET"
@@ -7,7 +16,7 @@ terraform {
 }
 
 module "proxy" {
-  source                   = "../../modules"
+  source                   = "./modules"
   proxy_project_name       = "YOUR_PROXY_PROJECT"
   gcr_project_name         = "YOUR_GCR_PROJECT"
   proxy_domain_name        = "YOUR_PROXY_DOMAIN"

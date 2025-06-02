@@ -30,3 +30,9 @@ variable "public_web_whois" {
     forwarding external HTTP(s) connections.
     EOF
 }
+
+variable "environment" {
+  description = "Environment name (production, staging, development)"
+  type        = string
+  default     = "production"
+}

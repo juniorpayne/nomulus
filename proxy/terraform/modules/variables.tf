@@ -65,3 +65,93 @@ variable "public_web_whois" {
     forwarding external HTTP(s) connections.
     EOF
 }
+
+# Enhanced security and modernization variables
+variable "gcp_project_id" {
+  description = "GCP Project ID for resource management and IAM"
+  type        = string
+}
+
+variable "environment" {
+  description = "Environment name (production, staging, development)"
+  type        = string
+  default     = "production"
+}
+
+variable "kms_location" {
+  description = "Location for KMS key ring (global, regional)"
+  type        = string
+  default     = "global"
+}
+
+variable "key_rotation_period" {
+  description = "Key rotation period in seconds (default: 90 days)"
+  type        = string
+  default     = "7776000s"  # 90 days
+}
+
+variable "backup_key_rotation_period" {
+  description = "Backup key rotation period in seconds (default: 180 days)"
+  type        = string
+  default     = "15552000s"  # 180 days
+}
+
+variable "kms_protection_level" {
+  description = "Protection level for KMS keys (SOFTWARE, HSM)"
+  type        = string
+  default     = "SOFTWARE"
+}
+
+variable "enable_backup_encryption" {
+  description = "Enable separate backup encryption key"
+  type        = bool
+  default     = false
+}
+
+variable "enable_artifact_registry" {
+  description = "Enable Artifact Registry access for service account"
+  type        = bool
+  default     = false
+}
+
+variable "create_service_account_key" {
+  description = "Create service account key for legacy compatibility"
+  type        = bool
+  default     = false
+}
+
+variable "kubernetes_namespace" {
+  description = "Kubernetes namespace for Workload Identity binding"
+  type        = string
+  default     = "default"
+}
+
+variable "kubernetes_service_account" {
+  description = "Kubernetes service account for Workload Identity binding"
+  type        = string
+  default     = "proxy-service-account"
+}
+
+variable "gcs_location" {
+  description = "Location for GCS buckets"
+  type        = string
+  default     = "US"
+}
+
+variable "backup_gcs_location" {
+  description = "Location for backup GCS bucket (should be different region)"
+  type        = string
+  default     = "EU"
+}
+
+variable "gcs_logging_bucket" {
+  description = "GCS bucket for access logging"
+  type        = string
+  default     = ""
+}
+
+variable "enable_backup_bucket" {
+  description = "Enable backup GCS bucket for disaster recovery"
+  type        = bool
+  default     = false
+}

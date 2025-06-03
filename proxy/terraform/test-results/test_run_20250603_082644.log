@@ -1,0 +1,123 @@
+[2025-06-03 08:26:44] Starting Terraform 6.37.0 Compatibility Test Suite
+[2025-06-03 08:26:44] Test Results Directory: /home/junior/newdoc/nomulus/proxy/terraform/test-results
+[2025-06-03 08:26:44] Log File: /home/junior/newdoc/nomulus/proxy/terraform/test-results/test_run_20250603_082644.log
+[0;34mℹ️  Running test: Terraform Version Check[0m
+[0;34mℹ️  Checking Terraform version compatibility...[0m
+[0;34mℹ️  Checking Terraform version compatibility...[0m
+[0;32m✅ Terraform version 1.12.1 meets minimum requirement (1.0)[0m
+[0;32m✅ Terraform version 1.12.1 meets minimum requirement (1.0)[0m
+[0;32m✅ Terraform Version Check - PASSED[0m
+[0;34mℹ️  Running test: Provider Version Validation[0m
+[0;34mℹ️  Validating provider version constraints...[0m
+[0;34mℹ️  Validating provider version constraints...[0m
+[0;32m✅ Provider version constraint found in example_config.tf[0m
+[0;32m✅ Provider version constraint found in example_config.tf[0m
+[0;32m✅ Provider version constraint found in modules/main.tf[0m
+[0;32m✅ Provider version constraint found in modules/main.tf[0m
+[0;32m✅ Provider Version Validation - PASSED[0m
+[0;34mℹ️  Running test: Terraform Syntax Validation[0m
+[0;34mℹ️  Validating Terraform syntax...[0m
+[0;34mℹ️  Validating Terraform syntax...[0m
+[0;34mℹ️  Initializing Terraform for validation...[0m
+[0;34mℹ️  Initializing Terraform for validation...[0m
+[0;32m✅ Terraform formatting is correct[0m
+[0;32m✅ Terraform formatting is correct[0m
+[32m[1mSuccess![0m The configuration is valid.
+[0m
+[0;32m✅ Terraform syntax validation passed[0m
+[0;32m✅ Terraform syntax validation passed[0m
+[0;32m✅ Terraform Syntax Validation - PASSED[0m
+[0;34mℹ️  Running test: Security Best Practices[0m
+[0;34mℹ️  Validating security best practices...[0m
+[0;34mℹ️  Validating security best practices...[0m
+[0;32m✅ GCS uniform bucket-level access enabled[0m
+[0;32m✅ GCS uniform bucket-level access enabled[0m
+[0;32m✅ GCS public access prevention enforced[0m
+[0;32m✅ GCS public access prevention enforced[0m
+[0;32m✅ Workload Identity configured[0m
+[0;32m✅ Workload Identity configured[0m
+[0;32m✅ Shielded nodes enabled[0m
+[0;32m✅ Shielded nodes enabled[0m
+[0;32m✅ Binary authorization configured[0m
+[0;32m✅ Binary authorization configured[0m
+[0;32m✅ Network policies enabled[0m
+[0;32m✅ Network policies enabled[0m
+[0;32m✅ KMS key rotation configured[0m
+[0;32m✅ KMS key rotation configured[0m
+[0;32m✅ Lifecycle protection enabled[0m
+[0;32m✅ Lifecycle protection enabled[0m
+[0;32m✅ Security Best Practices - PASSED[0m
+[0;34mℹ️  Running test: Naming Conventions[0m
+[0;34mℹ️  Validating resource naming conventions...[0m
+[0;34mℹ️  Validating resource naming conventions...[0m
+[0;32m✅ Resource naming conventions validated[0m
+[0;32m✅ Resource naming conventions validated[0m
+[0;32m✅ Naming Conventions - PASSED[0m
+[0;34mℹ️  Running test: Module Dependencies[0m
+[0;34mℹ️  Validating module dependencies and outputs...[0m
+[0;34mℹ️  Validating module dependencies and outputs...[0m
+[0;32m✅ GKE module outputs exist[0m
+[0;32m✅ GKE module outputs exist[0m
+[0;32m✅ Networking module outputs exist[0m
+[0;32m✅ Networking module outputs exist[0m
+[0;32m✅ Main module outputs exist[0m
+[0;32m✅ Main module outputs exist[0m
+[0;32m✅ Module Dependencies - PASSED[0m
+[0;34mℹ️  Running test: Variable Validation[0m
+[0;34mℹ️  Validating variable definitions and types...[0m
+[0;34mℹ️  Validating variable definitions and types...[0m
+[0;32m✅ Required variable gcp_project_id defined[0m
+[0;32m✅ Required variable gcp_project_id defined[0m
+[0;32m✅ Required variable environment defined[0m
+[0;32m✅ Required variable environment defined[0m
+[0;32m✅ Required variable proxy_service_account_email defined[0m
+[0;32m✅ Required variable proxy_service_account_email defined[0m
+[0;32m✅ Required variable proxy_cluster_region defined[0m
+[0;32m✅ Required variable proxy_cluster_region defined[0m
+[0;32m✅ Modern map type constraints found[0m
+[0;32m✅ Modern map type constraints found[0m
+[0;32m✅ Variable Validation - PASSED[0m
+[0;34mℹ️  Running test: Documentation Validation[0m
+[0;34mℹ️  Validating documentation completeness...[0m
+[0;34mℹ️  Validating documentation completeness...[0m
+[0;32m✅ Documentation file docs/PROVIDER_COMPATIBILITY_ANALYSIS.md exists[0m
+[0;32m✅ Documentation file docs/PROVIDER_COMPATIBILITY_ANALYSIS.md exists[0m
+[0;32m✅ Documentation file docs/EMERGENCY_RECOVERY_GUIDE.md exists[0m
+[0;32m✅ Documentation file docs/EMERGENCY_RECOVERY_GUIDE.md exists[0m
+[0;32m✅ Documentation file docs/STATE_BACKUP_PROCEDURES.md exists[0m
+[0;32m✅ Documentation file docs/STATE_BACKUP_PROCEDURES.md exists[0m
+[0;32m✅ Documentation Validation - PASSED[0m
+[0;34mℹ️  Running test: Backup System Validation[0m
+[0;34mℹ️  Validating backup and recovery system...[0m
+[0;34mℹ️  Validating backup and recovery system...[0m
+[0;32m✅ Backup component scripts/backup_terraform_state.sh exists and is executable[0m
+[0;32m✅ Backup component scripts/backup_terraform_state.sh exists and is executable[0m
+[0;32m✅ Backup component scripts/restore_terraform_state.sh exists and is executable[0m
+[0;32m✅ Backup component scripts/restore_terraform_state.sh exists and is executable[0m
+[0;32m✅ Backup component scripts/validate_state_backup.sh exists and is executable[0m
+[0;32m✅ Backup component scripts/validate_state_backup.sh exists and is executable[0m
+[0;32m✅ Backup System Validation - PASSED[0m
+[0;34mℹ️  Running test: Terraform Plan Test[0m
+[0;34mℹ️  Testing Terraform plan generation...[0m
+[0;34mℹ️  Testing Terraform plan generation...[0m
+[0m[1mInitializing the backend...[0m
+[0m[1mUpgrading modules...[0m
+- proxy in modules
+- proxy.proxy_gke_americas in modules/gke
+- proxy.proxy_gke_apac in modules/gke
+- proxy.proxy_gke_emea in modules/gke
+- proxy.proxy_networking in modules/networking
+- proxy.proxy_networking_canary in modules/networking
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate required providers configuration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on test_config.tf line 3, in terraform:
+[31m│[0m [0m   3:   [4mrequired_providers[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA module may have only one required providers configuration. The required
+[31m│[0m [0mproviders were previously configured at example_config.tf:4,3-21.
+[31m╵[0m[0m
+[0;31m❌ Terraform plan test failed[0m
+[0;31m❌ Terraform plan test failed[0m
+[0;31m❌ Terraform Plan Test - FAILED[0m
+[2025-06-03 08:26:57] Cleaning up test artifacts...

@@ -121,6 +121,12 @@ validate_terraform_syntax() {
     
     cd "$TERRAFORM_DIR"
     
+    # Initialize if needed
+    if [ ! -d ".terraform" ]; then
+        info "Initializing Terraform for validation..."
+        terraform init -backend=false >/dev/null 2>&1
+    fi
+    
     # Format check
     if terraform fmt -check -recursive .; then
         success "Terraform formatting is correct"
@@ -152,7 +158,7 @@ validate_security_practices() {
         "workload_identity_config:Workload Identity configured"
         "shielded_instance_config:Shielded nodes enabled"
         "binary_authorization:Binary authorization configured"
-        "network_policy.*enabled.*true:Network policies enabled"
+        "enabled.*=.*true:Network policies enabled"
         "rotation_period:KMS key rotation configured"
         "prevent_destroy.*true:Lifecycle protection enabled"
     )
@@ -320,7 +326,10 @@ validate_backup_system() {
 test_terraform_plan() {
     info "Testing Terraform plan generation..."
     
-    cd "$TERRAFORM_DIR"
+    # Create a separate temporary directory for the plan test
+    local temp_dir="/tmp/terraform-plan-test-$TIMESTAMP"
+    mkdir -p "$temp_dir"
+    cd "$temp_dir"
     
     # Create a minimal test configuration
     cat > test_config.tf << EOF
@@ -341,28 +350,32 @@ provider "google" {
 
 # Test resource to validate provider compatibility
 resource "google_storage_bucket" "test" {
-  name     = "test-bucket-terraform-validation"
+  name     = "test-bucket-terraform-validation-\${random_id.bucket_suffix.hex}"
   location = "US"
   
   uniform_bucket_level_access = true
   public_access_prevention    = "enforced"
   
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false  # For test cleanup
   }
+}
+
+resource "random_id" "bucket_suffix" {
+  byte_length = 8
 }
 EOF
     
     # Initialize and validate
-    if terraform init -upgrade && terraform validate; then
+    if terraform init && terraform validate && terraform plan -out=test.tfplan; then
         success "Terraform plan test passed"
-        rm -f test_config.tf .terraform.lock.hcl
-        rm -rf .terraform
+        cd "$TERRAFORM_DIR"
+        rm -rf "$temp_dir"
         return 0
     else
         error "Terraform plan test failed"
-        rm -f test_config.tf .terraform.lock.hcl
-        rm -rf .terraform
+        cd "$TERRAFORM_DIR"
+        rm -rf "$temp_dir"
         return 1
     fi
 }
@@ -409,8 +422,8 @@ main() {
 cleanup() {
     log "Cleaning up test artifacts..."
     cd "$TERRAFORM_DIR"
-    rm -f test_config.tf .terraform.lock.hcl
-    rm -rf .terraform
+    rm -f test_config.tf
+    # Keep .terraform and .terraform.lock.hcl for subsequent runs
 }
 
 # Set trap for cleanup

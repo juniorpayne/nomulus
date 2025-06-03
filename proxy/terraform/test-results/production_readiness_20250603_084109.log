@@ -1,0 +1,12 @@
+[0;35m================================================================[0m
+[0;35mTERRAFORM 6.37.0 PRODUCTION READINESS ASSESSMENT[0m
+[0;35m================================================================[0m
+[2025-06-03 08:41:09] Starting production readiness assessment
+[2025-06-03 08:41:10] Environment: production
+[2025-06-03 08:41:10] Assessment Log: /home/junior/newdoc/nomulus/proxy/terraform/test-results/production_readiness_20250603_084109.log
+[0;35m================================================================[0m
+[0;35mInfrastructure Readiness[0m
+[0;35m================================================================[0m
+[0;34mℹ️  Validating infrastructure configuration and compatibility...[0m
+[0;31m❌ Automated tests failed - infrastructure not ready[0m
+[0;31m❌ Infrastructure Readiness - NOT READY (26s)[0m

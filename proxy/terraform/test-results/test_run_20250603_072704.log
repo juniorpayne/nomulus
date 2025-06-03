@@ -1,0 +1,44 @@
+[2025-06-03 07:27:04] Starting Terraform 6.37.0 Compatibility Test Suite
+[2025-06-03 07:27:04] Test Results Directory: /home/junior/newdoc/nomulus/proxy/terraform/test-results
+[2025-06-03 07:27:04] Log File: /home/junior/newdoc/nomulus/proxy/terraform/test-results/test_run_20250603_072704.log
+[0;34mℹ️  Running test: Terraform Version Check[0m
+[0;34mℹ️  Checking Terraform version compatibility...[0m
+[0;34mℹ️  Checking Terraform version compatibility...[0m
+[0;32m✅ Terraform version 1.12.1 meets minimum requirement (1.0)[0m
+[0;32m✅ Terraform version 1.12.1 meets minimum requirement (1.0)[0m
+[0;32m✅ Terraform Version Check - PASSED[0m
+[0;34mℹ️  Running test: Provider Version Validation[0m
+[0;34mℹ️  Validating provider version constraints...[0m
+[0;34mℹ️  Validating provider version constraints...[0m
+[0;32m✅ Provider version constraint found in example_config.tf[0m
+[0;32m✅ Provider version constraint found in example_config.tf[0m
+[0;32m✅ Provider version constraint found in modules/main.tf[0m
+[0;32m✅ Provider version constraint found in modules/main.tf[0m
+[0;32m✅ Provider Version Validation - PASSED[0m
+[0;34mℹ️  Running test: Terraform Syntax Validation[0m
+[0;34mℹ️  Validating Terraform syntax...[0m
+[0;34mℹ️  Validating Terraform syntax...[0m
+[0;32m✅ Terraform formatting is correct[0m
+[0;32m✅ Terraform formatting is correct[0m
+[32m[1mSuccess![0m The configuration is valid.
+[0m
+[0;32m✅ Terraform syntax validation passed[0m
+[0;32m✅ Terraform syntax validation passed[0m
+[0;32m✅ Terraform Syntax Validation - PASSED[0m
+[0;34mℹ️  Running test: Security Best Practices[0m
+[0;34mℹ️  Validating security best practices...[0m
+[0;34mℹ️  Validating security best practices...[0m
+[0;32m✅ GCS uniform bucket-level access enabled[0m
+[0;32m✅ GCS uniform bucket-level access enabled[0m
+[0;32m✅ GCS public access prevention enforced[0m
+[0;32m✅ GCS public access prevention enforced[0m
+[0;32m✅ Workload Identity configured[0m
+[0;32m✅ Workload Identity configured[0m
+[0;32m✅ Shielded nodes enabled[0m
+[0;32m✅ Shielded nodes enabled[0m
+[0;32m✅ Binary authorization configured[0m
+[0;32m✅ Binary authorization configured[0m
+[0;31m❌ Network policies enabled - NOT FOUND[0m
+[0;31m❌ Network policies enabled - NOT FOUND[0m
+[0;31m❌ Security Best Practices - FAILED[0m
+[2025-06-03 07:27:09] Cleaning up test artifacts...

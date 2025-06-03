@@ -1,0 +1,27 @@
+[0;35m================================================================[0m
+[0;35mTERRAFORM 6.37.0 COMPREHENSIVE VALIDATION SUITE[0m
+[0;35m================================================================[0m
+[2025-06-03 08:27:43] Starting comprehensive test execution
+[2025-06-03 08:27:43] Test Results Directory: /home/junior/newdoc/nomulus/proxy/terraform/test-results
+[2025-06-03 08:27:43] Overall Log File: /home/junior/newdoc/nomulus/proxy/terraform/test-results/comprehensive_test_20250603_082743.log
+[0;35m================================================================[0m
+[0;35mSYSTEM INFORMATION[0m
+[0;35m================================================================[0m
+[0;34mℹ️  Operating System: Linux 6.11.0-26-generic[0m
+[0;34mℹ️  Architecture: x86_64[0m
+[0;34mℹ️  Terraform: Terraform v1.12.1[0m
+[0;34mℹ️  Google Cloud SDK: [0m
+[0;34mℹ️  kubectl: [0m
+[0;34mℹ️  Working Directory: /home/junior/newdoc/nomulus/proxy/terraform[0m
+[0;34mℹ️  Test Results Directory: /home/junior/newdoc/nomulus/proxy/terraform/test-results[0m
+[0;35m================================================================[0m
+[0;35mTerraform Compatibility Tests[0m
+[0;35m================================================================[0m
+[0;34mℹ️  Validates Terraform syntax, provider versions, and configuration compliance[0m
+[0;32m✅ Terraform Compatibility Tests completed successfully in 26s[0m
+[0;35m================================================================[0m
+[0;35mIntegration Tests[0m
+[0;35m================================================================[0m
+[0;34mℹ️  Tests real-world deployment scenarios and infrastructure functionality[0m
+[0;31m❌ Integration Tests failed after 2s[0m
+[2025-06-03 08:28:15] Test execution completed. Logs preserved in: /home/junior/newdoc/nomulus/proxy/terraform/test-results

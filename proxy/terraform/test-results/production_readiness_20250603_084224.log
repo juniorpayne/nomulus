@@ -1,0 +1,66 @@
+[0;35m================================================================[0m
+[0;35mTERRAFORM 6.37.0 PRODUCTION READINESS ASSESSMENT[0m
+[0;35m================================================================[0m
+[2025-06-03 08:42:24] Starting production readiness assessment
+[2025-06-03 08:42:24] Environment: production
+[2025-06-03 08:42:24] Assessment Log: /home/junior/newdoc/nomulus/proxy/terraform/test-results/production_readiness_20250603_084224.log
+[0;35m================================================================[0m
+[0;35mInfrastructure Readiness[0m
+[0;35m================================================================[0m
+[0;34mℹ️  Validating infrastructure configuration and compatibility...[0m
+[0;32m✅ Terraform compatibility tests passed (10/10)[0m
+[0;34mℹ️  Integration tests skipped (require GCP project access)[0m
+[0;32m✅ Terraform configuration is valid[0m
+[0;32m✅ Provider version constraints properly configured[0m
+[0;32m✅ Infrastructure Readiness - READY (24s)[0m
+[0;35m================================================================[0m
+[0;35mSecurity Readiness[0m
+[0;35m================================================================[0m
+[0;34mℹ️  Validating security configuration and best practices...[0m
+[0;32m✅ Workload Identity configured[0m
+[0;32m✅ Shielded nodes configured[0m
+[0;32m✅ Binary authorization configured[0m
+[0;32m✅ Uniform bucket access configured[0m
+[0;32m✅ Public access prevention configured[0m
+[0;32m✅ KMS key rotation configured[0m
+[0;32m✅ Resource labeling implemented[0m
+[0;32m✅ Security Readiness - READY (0s)[0m
+[0;35m================================================================[0m
+[0;35mBackup and Recovery Readiness[0m
+[0;35m================================================================[0m
+[0;34mℹ️  Validating backup and recovery systems...[0m
+[0;32m✅ Backup script available: backup_terraform_state.sh[0m
+[0;32m✅ Backup script available: restore_terraform_state.sh[0m
+[0;32m✅ Backup script available: validate_state_backup.sh[0m
+[0;32m✅ Backup directory exists[0m
+[0;32m✅ Emergency recovery guide available[0m
+[0;32m✅ Backup and Recovery Readiness - READY (0s)[0m
+[0;35m================================================================[0m
+[0;35mDocumentation Readiness[0m
+[0;35m================================================================[0m
+[0;34mℹ️  Validating documentation completeness...[0m
+[0;32m✅ Production deployment strategy available and complete[0m
+[0;32m✅ Deployment readiness checklist available and complete[0m
+[0;32m✅ Emergency recovery guide available and complete[0m
+[0;32m✅ State backup procedures available and complete[0m
+[0;32m✅ Provider compatibility analysis available and complete[0m
+[0;32m✅ Documentation Readiness - READY (0s)[0m
+[0;35m================================================================[0m
+[0;35mEnvironment and Tool Readiness[0m
+[0;35m================================================================[0m
+[0;34mℹ️  Validating deployment environment and tools...[0m
+[0;32m✅ Terraform CLI available (Terraform v1.12.1)[0m
+[0;32m✅ Google Cloud SDK available (Google Cloud SDK 523.0.0)[0m
+[0;32m✅ Kubernetes CLI available (unknown)[0m
+[0;32m✅ JSON processor available (jq-1.7)[0m
+[0;32m✅ HTTP client available (curl 8.5.0 (x86_64-pc-linux-gnu) libcurl/8.5.0 OpenSSL/3.0.13 zlib/1.3 brotli/1.1.0 zstd/1.5.5 libidn2/2.3.7 libpsl/0.21.2 (+libidn2/2.3.7) libssh/0.10.6/openssl/zlib nghttp2/1.59.0 librtmp/2.3 OpenLDAP/2.6.7)[0m
+[0;32m✅ Network connectivity tool available (unknown)[0m
+[0;32m✅ Terraform version 1.12.1 meets minimum requirement[0m
+[0;32m✅ Environment and Tool Readiness - READY (3s)[0m
+[0;35m================================================================[0m
+[0;35mAccess and Permissions Readiness[0m
+[0;35m================================================================[0m
+[0;34mℹ️  Validating access and permissions...[0m
+[0;32m✅ GCP authentication active for: junior@thepaynes.ca[0m
+[0;31m❌ Cannot access GCP project: newreg-460918[0m
+[0;31m❌ Access and Permissions Readiness - NOT READY (2s)[0m

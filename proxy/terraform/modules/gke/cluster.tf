@@ -8,15 +8,12 @@ resource "google_container_cluster" "proxy_cluster" {
 
   # Modern GKE configuration for enhanced security
   deletion_protection = false
-  
+
   # Enable Workload Identity for enhanced security
   workload_identity_config {
     workload_pool = "${var.gcp_project_id}.svc.id.goog"
   }
 
-  # Security configuration
-  cluster_security_group = "gke-security-groups"
-  
   # Network configuration for improved security
   network_policy {
     enabled = true
@@ -37,7 +34,7 @@ resource "google_container_cluster" "proxy_cluster" {
 
   monitoring_config {
     enable_components = ["SYSTEM_COMPONENTS"]
-    
+
     managed_prometheus {
       enabled = true
     }
@@ -65,7 +62,7 @@ resource "google_container_cluster" "proxy_cluster" {
       ]
 
       service_account = var.proxy_service_account_email
-      
+
       # Modern machine configuration
       machine_type = "e2-standard-2"
       disk_size_gb = 50

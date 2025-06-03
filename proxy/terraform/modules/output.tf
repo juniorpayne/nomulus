@@ -18,9 +18,9 @@ output "proxy_service_account" {
 output "kms_key_info" {
   description = "KMS key information for encryption"
   value = {
-    key_ring_id    = google_kms_key_ring.proxy_key_ring.id
-    crypto_key_id  = google_kms_crypto_key.proxy_key.id
-    backup_key_id  = var.enable_backup_encryption ? google_kms_crypto_key.proxy_backup_key[0].id : null
+    key_ring_id   = google_kms_key_ring.proxy_key_ring.id
+    crypto_key_id = google_kms_crypto_key.proxy_key.id
+    backup_key_id = var.enable_backup_encryption ? google_kms_crypto_key.proxy_backup_key[0].id : null
   }
   sensitive = true
 }
@@ -41,7 +41,7 @@ output "workload_identity_config" {
     service_account_email = google_service_account.proxy_service_account.email
     kubernetes_namespace  = var.kubernetes_namespace
     kubernetes_sa_name    = var.kubernetes_service_account
-    workload_pool        = "${var.gcp_project_id}.svc.id.goog"
+    workload_pool         = "${var.gcp_project_id}.svc.id.goog"
   }
 }
 

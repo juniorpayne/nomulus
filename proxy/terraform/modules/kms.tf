@@ -2,7 +2,7 @@ resource "google_kms_key_ring" "proxy_key_ring" {
   name     = var.proxy_key_ring
   location = var.kms_location
   project  = var.gcp_project_id
-  
+
   # Key ring lifecycle protection
   lifecycle {
     prevent_destroy = true
@@ -11,12 +11,12 @@ resource "google_kms_key_ring" "proxy_key_ring" {
 
 resource "google_kms_crypto_key" "proxy_key" {
   name     = var.proxy_key
-  key_ring = google_kms_key_ring.proxy_key_ring.id  # Modern reference instead of self_link
+  key_ring = google_kms_key_ring.proxy_key_ring.id # Modern reference instead of self_link
   purpose  = "ENCRYPT_DECRYPT"
-  
+
   # Enhanced key rotation policy
   rotation_period = var.key_rotation_period
-  
+
   # Key version template for enhanced security
   version_template {
     algorithm        = "GOOGLE_SYMMETRIC_ENCRYPTION"
@@ -27,7 +27,7 @@ resource "google_kms_crypto_key" "proxy_key" {
     # If a crypto key gets destroyed, all data encrypted with it is lost.
     prevent_destroy = true
   }
-  
+
   # Labels for better resource management
   labels = {
     environment = var.environment
@@ -43,10 +43,10 @@ resource "google_kms_crypto_key" "proxy_backup_key" {
   name     = "${var.proxy_key}-backup"
   key_ring = google_kms_key_ring.proxy_key_ring.id
   purpose  = "ENCRYPT_DECRYPT"
-  
+
   # Different rotation schedule for backup key
   rotation_period = var.backup_key_rotation_period
-  
+
   version_template {
     algorithm        = "GOOGLE_SYMMETRIC_ENCRYPTION"
     protection_level = var.kms_protection_level
@@ -55,7 +55,7 @@ resource "google_kms_crypto_key" "proxy_backup_key" {
   lifecycle {
     prevent_destroy = true
   }
-  
+
   labels = {
     environment = var.environment
     component   = "proxy"
@@ -66,10 +66,10 @@ resource "google_kms_crypto_key" "proxy_backup_key" {
 
 # Modern IAM binding with enhanced security
 resource "google_kms_crypto_key_iam_member" "ssl_key_decrypter" {
-  crypto_key_id = google_kms_crypto_key.proxy_key.id  # Modern reference
+  crypto_key_id = google_kms_crypto_key.proxy_key.id # Modern reference
   role          = "roles/cloudkms.cryptoKeyDecrypter"
   member        = "serviceAccount:${google_service_account.proxy_service_account.email}"
-  
+
   # IAM condition for enhanced security
   condition {
     title       = "Proxy service decryption access"

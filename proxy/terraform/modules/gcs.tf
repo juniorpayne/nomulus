@@ -3,21 +3,21 @@ resource "google_storage_bucket" "proxy_certificate" {
   location                    = var.gcs_location
   storage_class               = "STANDARD"
   project                     = var.gcp_project_id
-  uniform_bucket_level_access = true  # Enhanced security
-  
+  uniform_bucket_level_access = true # Enhanced security
+
   # Enhanced security configuration
   public_access_prevention = "enforced"
-  
+
   # Encryption configuration
   encryption {
     default_kms_key_name = google_kms_crypto_key.proxy_key.id
   }
-  
+
   # Versioning for data protection
   versioning {
     enabled = true
   }
-  
+
   # Lifecycle rules for cost optimization
   lifecycle_rule {
     condition {
@@ -27,7 +27,7 @@ resource "google_storage_bucket" "proxy_certificate" {
       type = "Delete"
     }
   }
-  
+
   lifecycle_rule {
     condition {
       age = 30
@@ -37,13 +37,13 @@ resource "google_storage_bucket" "proxy_certificate" {
       storage_class = "NEARLINE"
     }
   }
-  
+
   # Logging configuration
   logging {
     log_bucket        = var.gcs_logging_bucket
     log_object_prefix = "proxy-certificate-access-"
   }
-  
+
   # Labels for resource management
   labels = {
     environment = var.environment
@@ -51,7 +51,7 @@ resource "google_storage_bucket" "proxy_certificate" {
     purpose     = "ssl-certificates"
     managed-by  = "terraform"
   }
-  
+
   # Prevent accidental deletion
   lifecycle {
     prevent_destroy = true
@@ -63,7 +63,7 @@ resource "google_storage_bucket_iam_member" "certificate_viewer" {
   bucket = google_storage_bucket.proxy_certificate.name
   role   = "roles/storage.objectViewer"
   member = "serviceAccount:${google_service_account.proxy_service_account.email}"
-  
+
   # IAM condition for time-based access
   condition {
     title       = "Certificate access during business hours"
@@ -87,18 +87,18 @@ resource "google_storage_bucket" "proxy_backup" {
   storage_class               = "COLDLINE"
   project                     = var.gcp_project_id
   uniform_bucket_level_access = true
-  
+
   public_access_prevention = "enforced"
-  
+
   # Cross-region backup encryption
   encryption {
     default_kms_key_name = var.enable_backup_encryption ? google_kms_crypto_key.proxy_backup_key[0].id : google_kms_crypto_key.proxy_key.id
   }
-  
+
   versioning {
     enabled = true
   }
-  
+
   # Extended retention for backup
   lifecycle_rule {
     condition {
@@ -108,14 +108,14 @@ resource "google_storage_bucket" "proxy_backup" {
       type = "Delete"
     }
   }
-  
+
   labels = {
     environment = var.environment
     component   = "proxy"
     purpose     = "backup-certificates"
     managed-by  = "terraform"
   }
-  
+
   lifecycle {
     prevent_destroy = true
   }

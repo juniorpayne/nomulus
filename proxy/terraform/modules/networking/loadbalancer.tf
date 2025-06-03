@@ -1,8 +1,8 @@
 resource "google_compute_global_address" "proxy_ipv4_address" {
-  name         = "proxy-ipv4-address${var.suffix}"
-  ip_version   = "IPV4"
-  description  = "Global IPv4 address for proxy load balancer"
-  
+  name        = "proxy-ipv4-address${var.suffix}"
+  ip_version  = "IPV4"
+  description = "Global IPv4 address for proxy load balancer"
+
   labels = {
     environment = var.environment
     component   = "proxy"
@@ -11,10 +11,10 @@ resource "google_compute_global_address" "proxy_ipv4_address" {
 }
 
 resource "google_compute_global_address" "proxy_ipv6_address" {
-  name         = "proxy-ipv6-address${var.suffix}"
-  ip_version   = "IPV6"
-  description  = "Global IPv6 address for proxy load balancer"
-  
+  name        = "proxy-ipv6-address${var.suffix}"
+  ip_version  = "IPV6"
+  description = "Global IPv6 address for proxy load balancer"
+
   labels = {
     environment = var.environment
     component   = "proxy"
@@ -42,9 +42,9 @@ resource "google_compute_firewall" "proxy_firewall" {
 
   # Google Cloud Load Balancer IP ranges
   source_ranges = [
-    "130.211.0.0/22",   # Google health check ranges
-    "35.191.0.0/16",    # Google health check ranges
-    "0.0.0.0/0",        # Allow external traffic (restricted by load balancer)
+    "130.211.0.0/22", # Google health check ranges
+    "35.191.0.0/16",  # Google health check ranges
+    "0.0.0.0/0",      # Allow external traffic (restricted by load balancer)
   ]
 
   target_tags = [
@@ -60,17 +60,17 @@ resource "google_compute_firewall" "proxy_firewall" {
 resource "google_compute_health_check" "proxy_health_check" {
   name        = "proxy-health-check${var.suffix}"
   description = "TCP health check for proxy services"
-  
+
   timeout_sec         = 5
   check_interval_sec  = 10
   healthy_threshold   = 2
   unhealthy_threshold = 3
 
   tcp_health_check {
-    port               = var.proxy_ports["health_check"]
-    request            = "HEALTH_CHECK_REQUEST"
-    response           = "HEALTH_CHECK_RESPONSE"
-    proxy_header       = "NONE"
+    port         = var.proxy_ports["health_check"]
+    request      = "HEALTH_CHECK_REQUEST"
+    response     = "HEALTH_CHECK_RESPONSE"
+    proxy_header = "NONE"
   }
 
   log_config {
@@ -81,17 +81,17 @@ resource "google_compute_health_check" "proxy_health_check" {
 resource "google_compute_health_check" "proxy_http_health_check" {
   name        = "proxy-http-health-check${var.suffix}"
   description = "HTTP health check for proxy web services"
-  
+
   timeout_sec         = 5
   check_interval_sec  = 10
   healthy_threshold   = 2
   unhealthy_threshold = 3
 
   http_health_check {
-    host               = "health-check.invalid"
-    port               = var.proxy_ports["http-whois"]
-    request_path       = "/"
-    proxy_header       = "NONE"
+    host         = "health-check.invalid"
+    port         = var.proxy_ports["http-whois"]
+    request_path = "/"
+    proxy_header = "NONE"
   }
 
   log_config {
@@ -110,11 +110,11 @@ resource "google_compute_backend_service" "epp_backend_service" {
   protocol    = "TCP"
   timeout_sec = 3600
   port_name   = "epp${var.suffix}"
-  
+
   # Modern load balancing configuration
   load_balancing_scheme = "EXTERNAL"
-  session_affinity     = "NONE"
-  
+  session_affinity      = "NONE"
+
   # Connection draining timeout
   connection_draining_timeout_sec = 300
 
@@ -155,11 +155,11 @@ resource "google_compute_backend_service" "whois_backend_service" {
   protocol    = "TCP"
   timeout_sec = 60
   port_name   = "whois${var.suffix}"
-  
+
   # Modern load balancing configuration
   load_balancing_scheme = "EXTERNAL"
-  session_affinity     = "NONE"
-  
+  session_affinity      = "NONE"
+
   # Connection draining timeout
   connection_draining_timeout_sec = 60
 
@@ -200,11 +200,11 @@ resource "google_compute_backend_service" "https_whois_backend_service" {
   protocol    = "TCP"
   timeout_sec = 60
   port_name   = "https-whois${var.suffix}"
-  
+
   # Modern load balancing configuration
   load_balancing_scheme = "EXTERNAL"
-  session_affinity     = "NONE"
-  
+  session_affinity      = "NONE"
+
   # Connection draining timeout
   connection_draining_timeout_sec = 60
 
@@ -245,11 +245,11 @@ resource "google_compute_backend_service" "http_whois_backend_service" {
   protocol    = "HTTP"
   timeout_sec = 60
   port_name   = "http-whois${var.suffix}"
-  
+
   # Modern load balancing configuration
   load_balancing_scheme = "EXTERNAL"
-  session_affinity     = "NONE"
-  
+  session_affinity      = "NONE"
+
   # Connection draining timeout
   connection_draining_timeout_sec = 60
 

@@ -2,10 +2,10 @@ resource "google_service_account" "proxy_service_account" {
   account_id   = "proxy-service-account"
   display_name = "Nomulus proxy service account"
   description  = "Service account for Nomulus proxy operations with least-privilege access"
-  
+
   # Enhanced security settings
   disabled = false
-  
+
   # Automatic key rotation (when using workload identity)
   lifecycle {
     prevent_destroy = true
@@ -17,7 +17,7 @@ resource "google_project_iam_member" "metric_writer" {
   project = var.gcp_project_id
   role    = "roles/monitoring.metricWriter"
   member  = "serviceAccount:${google_service_account.proxy_service_account.email}"
-  
+
   # Optional condition for environment-specific access
   dynamic "condition" {
     for_each = var.environment != "production" ? [1] : []
@@ -53,7 +53,7 @@ resource "google_project_iam_member" "artifact_registry_reader" {
 resource "google_service_account_key" "proxy_service_key" {
   count              = var.create_service_account_key ? 1 : 0
   service_account_id = google_service_account.proxy_service_account.name
-  
+
   # Key rotation lifecycle
   lifecycle {
     create_before_destroy = true

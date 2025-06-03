@@ -4,7 +4,7 @@ resource "google_dns_record_set" "proxy_epp_a_record" {
   ttl          = 300
   managed_zone = var.proxy_domain
   rrdatas      = [google_compute_global_address.proxy_ipv4_address.address]
-  
+
   # Lifecycle management for DNS changes
   lifecycle {
     create_before_destroy = true
@@ -17,7 +17,7 @@ resource "google_dns_record_set" "proxy_epp_aaaa_record" {
   ttl          = 300
   managed_zone = var.proxy_domain
   rrdatas      = [google_compute_global_address.proxy_ipv6_address.address]
-  
+
   # Lifecycle management for DNS changes
   lifecycle {
     create_before_destroy = true
@@ -30,7 +30,7 @@ resource "google_dns_record_set" "proxy_whois_a_record" {
   ttl          = 300
   managed_zone = var.proxy_domain
   rrdatas      = [google_compute_global_address.proxy_ipv4_address.address]
-  
+
   # Lifecycle management for DNS changes
   lifecycle {
     create_before_destroy = true
@@ -43,7 +43,7 @@ resource "google_dns_record_set" "proxy_whois_aaaa_record" {
   ttl          = 300
   managed_zone = var.proxy_domain
   rrdatas      = [google_compute_global_address.proxy_ipv6_address.address]
-  
+
   # Lifecycle management for DNS changes
   lifecycle {
     create_before_destroy = true

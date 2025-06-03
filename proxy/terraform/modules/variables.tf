@@ -87,13 +87,13 @@ variable "kms_location" {
 variable "key_rotation_period" {
   description = "Key rotation period in seconds (default: 90 days)"
   type        = string
-  default     = "7776000s"  # 90 days
+  default     = "7776000s" # 90 days
 }
 
 variable "backup_key_rotation_period" {
   description = "Backup key rotation period in seconds (default: 180 days)"
   type        = string
-  default     = "15552000s"  # 180 days
+  default     = "15552000s" # 180 days
 }
 
 variable "kms_protection_level" {

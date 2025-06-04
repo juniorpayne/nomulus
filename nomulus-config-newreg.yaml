@@ -61,7 +61,8 @@ cloudSql:
 
 auth:
   # OAuth client configuration for console authentication
-  oauthClientId: # Will be configured after OAuth setup
+  oauthClientId: 680343905479-j897k8vg44s25cng3b3bcu917n31g7ee.apps.googleusercontent.com
+  oauthClientSecret: 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
   
   # Allowed service account emails for API access
   allowedServiceAccountEmails:

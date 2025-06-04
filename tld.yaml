@@ -22,6 +22,7 @@ creationTime: "2025-05-25T18:00:00.000Z"
 
 # TLD state transitions (lifecycle management)
 tldStateTransitions:
+  "1970-01-01T00:00:00.000Z": "PREDELEGATION"
   "2025-05-25T18:00:00.000Z": "GENERAL_AVAILABILITY"
 
 # Claims period (set far in future to disable claims period)
@@ -29,11 +30,19 @@ claimsPeriodEnd: "2099-12-31T23:59:59.999Z"
 
 # Pricing configuration
 currency: "USD"
-createBillingCost:
-  currency: "USD"
-  amount: 10.00
+
+createBillingCostTransitions:
+  "1970-01-01T00:00:00.000Z":
+    currency: "USD"
+    amount: 10.00
+  "2025-05-25T18:00:00.000Z":
+    currency: "USD"
+    amount: 10.00
 
 renewBillingCostTransitions:
+  "1970-01-01T00:00:00.000Z":
+    currency: "USD"
+    amount: 10.00
   "2025-05-25T18:00:00.000Z":
     currency: "USD"
     amount: 10.00
@@ -52,7 +61,7 @@ serverStatusChangeBillingCost:
 
 # Early Access Program (EAP) pricing
 eapFeeSchedule:
-  "2025-05-25T18:00:00.000Z":
+  "1970-01-01T00:00:00.000Z":
     currency: "USD"
     amount: 0.00
 
@@ -93,5 +102,4 @@ driveFolderId: null         # Google Drive folder ID for reports
 allowedRegistrantContactIds: []
 allowedFullyQualifiedHostNames: []
 
-# BSA (Brand Security Alliance) configuration
-bsaEnrollDate: null         # Set date if enrolling in BSA blocking service
+# BSA (Brand Security Alliance) configuration - removed bsaEnrollDate as it's not supported in this version

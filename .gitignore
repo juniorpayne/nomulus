@@ -120,3 +120,4 @@ core/WEB-INF/appengine-generated/*.xml
 
 # jEnv
 .java-version
+.terraform/
